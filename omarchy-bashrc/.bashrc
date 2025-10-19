@@ -10,7 +10,7 @@ source ~/.local/share/omarchy/default/bash/rc
 # --- System and Common Commands Aliases ---
 alias c='clear'
 alias mkdir='mkdir -p'
-alias shutdown='shutdown +0.5'
+alias shutdown='shutdown now'
 
 # --- Navigation (cd) Aliases ---
 alias downloads='cd ~/.Downloads'
