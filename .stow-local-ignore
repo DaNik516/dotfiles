@@ -18,6 +18,8 @@ _darcs
 .+~          # emacs backup files
 \#.*\#       # emacs autosave files
 
+.DS_Store # macos
+
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
