@@ -1,0 +1,196 @@
+# Java Snippets Collection
+
+snippet fdijscanner "Java Scanner input template"
+package fondamentidiinformatica.$1;
+
+import java.util.Scanner;
+
+public class $2 {
+    public static void main(String[] args) {
+        Scanner $3 = new Scanner(System.in);
+
+        System.out.print("Inserisci $4: ");
+        String $5 = $3.nextLine();
+
+        $3.close();
+    }
+}
+$0
+endsnippet
+
+snippet jarr "Java array definition"
+${1:int}[] ${2:arrayName} = new ${1:int}[${3:size}];$0
+endsnippet
+
+snippet jarrlit "Java array with literal values"
+${1:int}[] ${2:arrayName} = {${3:value1}, ${4:value2}, ${5:value3}};$0
+endsnippet
+
+snippet jdict "Java HashMap definition"
+HashMap<${1:String}, ${2:Integer}> ${3:mapName} = new HashMap<>();$0
+endsnippet
+
+snippet jdictfull "Java HashMap with import"
+import java.util.HashMap;
+
+HashMap<${1:String}, ${2:Integer}> ${3:mapName} = new HashMap<>();
+${3:mapName}.put(${4:key}, ${5:value});$0
+endsnippet
+
+snippet jfor "Java for loop"
+for (${1:int} ${2:i} = ${3:0}; ${2:i} < ${4:length}; ${2:i}++) {
+    ${5:// code here}
+}$0
+endsnippet
+
+snippet jforeach "Java enhanced for loop"
+for (${1:String} ${2:item} : ${3:collection}) {
+    ${4:// code here}
+}$0
+endsnippet
+
+snippet jwhile "Java while loop"
+while (${1:condition}) {
+    ${2:// code here}
+}$0
+endsnippet
+
+snippet jdowhile "Java do-while loop"
+do {
+    ${1:// code here}
+} while (${2:condition});$0
+endsnippet
+
+snippet jif "Java if statement"
+if (${1:condition}) {
+    ${2:// code here}
+}$0
+endsnippet
+
+snippet jifelse "Java if-else statement"
+if (${1:condition}) {
+    ${2:// code here}
+} else {
+    ${3:// code here}
+}$0
+endsnippet
+
+snippet jifelif "Java if-else if-else statement"
+if (${1:condition}) {
+    ${2:// code here}
+} else if (${3:condition}) {
+    ${4:// code here}
+} else {
+    ${5:// code here}
+}$0
+endsnippet
+
+snippet jswitchtraditional "Java traditional switch statement"
+switch (${1:variable}) {
+    case ${2:value1}:
+        ${3:// code here}
+        break;
+    case ${4:value2}:
+        ${5:// code here}
+        break;
+    default:
+        ${6:// code here}
+        break;
+}$0
+endsnippet
+
+snippet jswitchmulti "Java traditional switch with multiple cases"
+switch (${1:month}) {
+    case ${2:12}: case ${3:1}: case ${4:2}:
+        ${5:season} = "${6:winter}";
+        break;
+    case ${7:3}: case ${8:4}: case ${9:5}:
+        ${5:season} = "${10:spring}";
+        break;
+    case ${11:6}: case ${12:7}: case ${13:8}:
+        ${5:season} = "${14:summer}";
+        break;
+    case ${15:9}: case ${16:10}: case ${17:11}:
+        ${5:season} = "${18:autumn}";
+        break;
+    default:
+        ${5:season} = "${19:unknown}";
+        break;
+}$0
+endsnippet
+
+snippet jswitcharrow "Java switch with arrow syntax"
+switch (${1:variable}) {
+    case ${2:value1} -> ${3:result1};
+    case ${4:value2} -> ${5:result2};
+    default -> ${6:defaultResult};
+}$0
+endsnippet
+
+snippet jswitcharrowmulti "Java switch arrow with multiple cases"
+switch (${1:month}) {
+    case ${2:12}, ${3:1}, ${4:2} -> ${5:season} = "${6:winter}";
+    case ${7:3}, ${8:4}, ${9:5} -> ${5:season} = "${10:spring}";
+    case ${11:6}, ${12:7}, ${13:8} -> ${5:season} = "${14:summer}";
+    case ${15:9}, ${16:10}, ${17:11} -> ${5:season} = "${18:autumn}";
+    default -> ${5:season} = "${19:unknown}";
+}$0
+endsnippet
+
+snippet jswitchyield "Java switch expression with yield"
+${1:String} ${2:result} = switch (${3:variable}) {
+    case ${4:value1} -> "${5:result1}";
+    case ${6:value2} -> "${7:result2}";
+    default -> "${8:defaultResult}";
+};$0
+endsnippet
+
+snippet jswitchyieldblock "Java switch expression with yield blocks"
+${1:String} ${2:season} = switch (${3:month}) {
+    case ${4:12}, ${5:1}, ${6:2} -> "${7:winter}";
+    case ${8:3}, ${9:4}, ${10:5} -> "${11:spring}";
+    case ${12:6}, ${13:7}, ${14:8} -> "${15:summer}";
+    case ${16:9}, ${17:10}, ${18:11} -> "${19:autumn}";
+    default -> {
+        System.out.println("${20:Provided number is not a valid month!}");
+        yield "${21:not identifiable}";
+    }
+};$0
+endsnippet
+
+snippet jtrycatch "Java try-catch block"
+try {
+    ${1:// code here}
+} catch (${2:Exception} ${3:e}) {
+    ${4:// handle exception}
+}$0
+endsnippet
+
+snippet jtryfinally "Java try-catch-finally block"
+try {
+    ${1:// code here}
+} catch (${2:Exception} ${3:e}) {
+    ${4:// handle exception}
+} finally {
+    ${5:// cleanup code}
+}$0
+endsnippet
+
+
+snippet jwhilescannerbreak "Java while loop with Scanner and break condition"
+Scanner ${1:scanner} = new Scanner(System.in);
+
+while (true) {
+    System.out.print("${2:Inserisci un valore}: ");
+    ${3:int} ${4:input} = ${1:scanner}.${5:nextInt}();
+
+    if (${4:input} == ${6:0}) {
+        break;
+    }
+
+    ${7:// process input}
+}
+
+${1:scanner}.close();$0
+endsnippet
+
