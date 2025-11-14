@@ -424,8 +424,8 @@ local plugin_specs = {
   },
 
 
-  -- Java support
-  {
+-- Java support
+{
   "nvim-java/nvim-java",
   dependencies = {
     "nvim-java/lua-async-await",
@@ -444,29 +444,34 @@ local plugin_specs = {
         },
       },
     },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      opts = {
+        ensure_installed = {
+          "spring-boot-tools",
+        },
+      },
+    },
   },
   config = function()
-    require('java').setup({
+    require("java").setup({
       jdk = {
         auto_install = false,
+        path = os.getenv("JAVA_HOME"),
       },
-      -- Explicitly enable java-test and java-debug-adapter
-      java_test = {
-        enable = true,
-      },
-      java_debug_adapter = {
-        enable = true,
-      },
-      notifications = {
-        dap = true,  -- Enable DAP notifications to see what's happening
-      },
+      java_test = { enable = true },
+      java_debug_adapter = { enable = true },
+      notifications = { dap = true },
     })
 
-    -- Setup jdtls after java setup
-    require('lspconfig').jdtls.setup({})
+    require("lspconfig").jdtls.setup({
+      cmd = { os.getenv("JDTLS_BIN") },
+    })
   end,
   ft = { "java" },
 },
+
+
 
 
 -- Debugger adapter protocol client
