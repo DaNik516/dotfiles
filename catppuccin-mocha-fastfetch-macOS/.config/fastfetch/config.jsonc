@@ -73,7 +73,7 @@
         },
         {
             "type": "os",
-            "key": "├─ ", // Just get your distro's logo off nerdfonts.com
+            "key": "├─ ", // Just get your distro's logo off nerdfonts.com
             "keyColor": "#1e66f5"
         },
         {
