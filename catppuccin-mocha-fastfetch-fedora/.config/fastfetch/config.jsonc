@@ -1,0 +1,88 @@
+
+{
+     "logo": {
+         "type": "auto",
+         "source": "~/.config/fastfetch/image2.png",
+         "width": 20,
+         "height": 15
+     },
+    "display": {
+        "separator": " "
+    },
+    "modules": [
+        "break",
+        {
+            "type": "host",
+            "key": "╭─󰇅 ",
+            "keyColor": "#8839ef"
+        },
+        {
+            "type": "cpu",
+            "key": "├─ ",
+            "format": "{1}",
+            "keyColor": "#179299"
+        },
+        {
+            "type": "gpu",
+            "key": "├─ ",
+            "format": "{2}",
+            "keyColor": "#d20f39"
+        },
+        {
+            "type": "memory",
+            "key": "├─ ",
+            "keyColor": "#04a5e5",
+            "format": "{2}"
+        },
+
+        {
+            "type": "display",
+            "key": "╰─󰍹 ",
+            "keyColor": "#40a02b",
+            "compactType": "original"
+        },
+        "break",
+
+        {
+            "type": "shell",
+            "key": "╭─ ",
+            "keyColor": "#ea76cb"
+        },
+        {
+            "type": "terminal",
+            "key": "├─ ",
+            "keyColor": "#dd7878"
+        },
+        {
+            "type": "de",
+            "key": "├─ ",
+            "keyColor": "#dc8a78"
+        },
+        {
+            "type": "wm",
+            "key": "╰─ ",
+            "keyColor": "#e64553"
+        },
+
+        "break",
+        {
+            "type": "title",
+            "key": "╭─ ",
+            "format": "{1}@{2}",
+            "keyColor": "#fe640b"
+        },
+        {
+            "type": "os",
+            "key": "├─ ", // Just get your distro's logo off nerdfonts.com
+            "keyColor": "#1e66f5"
+        },
+        {
+            "type": "kernel",
+            "key": "╰─ ",
+            "format": "{1} {2}",
+            "keyColor": "#df8e1d"
+        },
+        "break",
+        "colors"
+    ]
+}
