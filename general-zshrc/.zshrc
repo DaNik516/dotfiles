@@ -21,4 +21,6 @@ export JDTLS_BIN=$HOME/tools/jdtls/bin/jdtls
 eval "$(starship init zsh)"
 
 # Various commands to load at startup
-fastfetch
+#fastfetch
+#pokemon-colorscripts -r
+fastfetch --data-raw "$(pokemon-colorscripts -r)" #this override fastfetch native image and pt the output of pokemon-colorscripts -r as the fastfetch logo
