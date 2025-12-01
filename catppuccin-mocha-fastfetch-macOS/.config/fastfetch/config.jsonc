@@ -13,31 +13,31 @@
         "break",
         {
             "type": "host",
-            "key": "╭─󰇅 ",
+            "key": "╭─󰇅 Host:",
             "keyColor": "#8839ef"
         },
         {
             "type": "cpu",
-            "key": "├─ ",
+            "key": "├─ Cpu:",
             "format": "{1}",
             "keyColor": "#179299"
         },
         {
             "type": "gpu",
-            "key": "├─ ",
+            "key": "├─ Gpu:",
             "format": "{2}",
             "keyColor": "#d20f39"
         },
         {
             "type": "memory",
-            "key": "├─ ",
+            "key": "├─ Memory:",
             "keyColor": "#04a5e5",
             "format": "{2}"
         },
 
         {
             "type": "display",
-            "key": "╰─󰍹 ",
+            "key": "╰─󰍹 Display:",
             "keyColor": "#40a02b",
             "compactType": "original"
         },
@@ -45,40 +45,40 @@
 
         {
             "type": "shell",
-            "key": "╭─ ",
+            "key": "╭─ Shell:",
             "keyColor": "#ea76cb"
         },
         {
             "type": "terminal",
-            "key": "├─ ",
+            "key": "├─ Terminal:",
             "keyColor": "#dd7878"
         },
         {
             "type": "de",
-            "key": "├─ ",
+            "key": "├─ DE:",
             "keyColor": "#dc8a78"
         },
         {
             "type": "wm",
-            "key": "╰─ ",
+            "key": "╰─ WM:",
             "keyColor": "#e64553"
         },
 
         "break",
         {
             "type": "title",
-            "key": "╭─ ",
+            "key": "╭─ User:",
             "format": "{1}@{2}",
             "keyColor": "#fe640b"
         },
         {
             "type": "os",
-            "key": "├─ ", // Just get your distro's logo off nerdfonts.com
+            "key": "├─ OS:", // Just get your distro's logo off nerdfonts.com
             "keyColor": "#1e66f5"
         },
         {
             "type": "kernel",
-            "key": "╰─ ",
+            "key": "╰─ Kernel:",
             "format": "{1} {2}",
             "keyColor": "#df8e1d"
         },
