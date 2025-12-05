@@ -1,35 +1,60 @@
 # General stows
 - located in .config
-## Code
-- visual studio code user config
 
-## git
-- git configuration
 
 # Single stows
-
-## alacritty
+  
+## catppuccin-mocha-alacritty
 - general alacritty configuration without import
+- catppuccin mocha palette
 
-## btop
+## catppuccin-mocha-btop
 - general btop configuration
+- catppuccin mocha palette
 
-## fastfetch
-- general fastfetch configuration
+## catppuccin-mocha-cava
+- general cava configuration
+- catppuccin mocha palette
 
-## Ghostty
+## catppuccin-mocha-fastfetch-fedora
+- fedora specific fastfetch configuration
+- catppuccin mocha palette
+
+## catppuccin-mocha-fastfetch-macOS
+- macOS specific fastfetch configuration
+- catppuccin mocha palette
+
+## catppuccin-mocha-ghostty-macOS
 - general ghostty configuration
+- catppuccin mocha palette
 
-## nvim
-- general nvim configuration
+## catppuccin-mocha-kitty-linux-JetBrainsMono_Nerd_Font
+- general kitty configuration
+- it assumes that the JetBrainsMonoNerdFont was downloaded through the website
+- catppuccin mocha palette
 
-## Omarchy-*
-- Omarchy specific configurations
-- They include imports/directories that are omarchy-specific
+## catppuccin-mocha-kitty-macOS-nixDarwin
+- general kitty configuration
+- it assumes that the JetBrainsMonoNerdFont was downloaded through nix darwin homebrew path
+- catppuccin mocha palette
 
-## starship
+## catppuccin-rainbow-starship
 - general starship configuration
+- catppuccin mocha palette
 
-## waybar
-- general waybar configuration
+## general-nvim
+- general nvim configuration
+- taken from https://github.com/jdhao/nvim-config with nvim java added https://github.com/nvim-java/nvim-java
+- It feature random palette that are changed each time neovim is opened
+
+## general-zshrc
+- general ~/.zshrc file.
+- It contains only globally valid option. This means it is compatible with almost any os
+
+## gitconfig
+- git configuration (username/email/lfs) for my main account nicolkrit999
+
+
+## mac_nix_darwing-zshrc
+- zshrc specific for mac os. It adds its content into what is defined using nix-darwin
 
