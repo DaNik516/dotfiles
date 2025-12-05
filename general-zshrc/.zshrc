@@ -147,19 +147,19 @@ eval "$(starship init zsh)"
 
 # ----------------------------------------------
 # Startup Splash (Fastfetch + Pokemon)
-# Only run if in interactive mode (*l*) and commands exist
+# Changed *l* to *i* (interactive) because zsh does not use 'l' flag in $-
 case "$-" in
-*l*)
-  if command -v fastfetch >/dev/null 2>&1 && command -v pokemon-colorscripts >/dev/null 2>&1; then
-    # Run fastfetch using the pokemon output as the raw logo
-    fastfetch --data-raw "$(pokemon-colorscripts --no-title -r 1,3,6)"
-  elif command -v pokemon-colorscripts >/dev/null 2>&1; then
-    # Fallback: run just pokemon if fastfetch is missing
-    pokemon-colorscripts --no-title -r 1,3,6
-  elif command -v fastfetch >/dev/null 2>&1; then
-    # Fallback: run just fastfetch
-    fastfetch
-  fi
-  ;;
+  (*i*)
+    if command -v fastfetch >/dev/null 2>&1 && command -v pokemon-colorscripts >/dev/null 2>&1; then
+      # Run fastfetch using the pokemon output as the raw logo
+      fastfetch --data-raw "$(pokemon-colorscripts --no-title -r 1,3,6)"
+    elif command -v pokemon-colorscripts >/dev/null 2>&1; then
+      # Fallback: run just pokemon if fastfetch is missing
+      pokemon-colorscripts --no-title -r 1,3,6
+    elif command -v fastfetch >/dev/null 2>&1; then
+      # Fallback: run just fastfetch
+      fastfetch
+    fi
+    ;;
 esac
 # ----------------------------------------------
