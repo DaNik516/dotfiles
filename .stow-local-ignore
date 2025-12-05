@@ -24,6 +24,9 @@ _darcs
 # DS_Store
 \.DS_Store
 
+# Neovim lazy lock
+lazy-lock.json
+
 ^/README.*
 ^/LICENSE.*
 ^/COPYING

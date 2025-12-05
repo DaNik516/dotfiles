@@ -6,6 +6,7 @@ SAVEHIST=1000
 unsetopt beep
 bindkey -v
 # End of lines configured by zsh-newuser-install
+
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/krit/.zshrc'
 
@@ -16,12 +17,22 @@ compinit
 
 # ----------------------------------------------
 # Export current java path to allow to use the current java version
+# Note: On NixOS/Darwin, JAVA_HOME might be set globally, but this ensures dynamic resolution
 export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+
 # Export current jdtls path to allow to user the current java version
+# This maps to the symlink created by home.nix
 export JDTLS_BIN=$HOME/tools/jdtls/bin/jdtls
 # ----------------------------------------------
 
-# ... (Keep your lines 1-20 unchanged: HISTFILE, exports, etc.) ...
+# ----------------------------------------------
+# FZF Styling (Universal)
+export FZF_DEFAULT_OPTS=" \
+  --color=fg:#cdd6f4,bg:#1e1e2e,hl:#f38ba8 \
+  --color=fg+:#cdd6f4,bg+:#313244,hl+:#f38ba8 \
+  --color=info:#94e2d5,prompt:#89b4fa,pointer:#f5c2e7 \
+  --color=marker:#a6e3a1,spinner:#f5c2e7,header:#f9e2af,border:#45475a"
+# ----------------------------------------------
 
 # ----------------------------------------------
 # Aliases
@@ -32,7 +43,7 @@ alias dev-python="cd ~/developing-projects/python-projects/"
 alias dev-latex="cd ~/developing-projects/latex-projects/"
 alias dev-html="cd ~/developing-projects/html-projects/"
 
-# Built in command improvement (FIXED: Added 'alias' keyword and removed spaces)
+# Built in command improvement
 alias sudo="sudo "
 alias l="eza -lh --icons=auto"
 alias ls="eza -1  --icons=auto"
@@ -75,7 +86,7 @@ alias usr="cd /usr/"
 # Useful git aliases
 alias clone="git clone"
 alias clonedepth1="git clone --depth=1"
-alias gitkeep="find . -type d -empty -not -path './.git/*' -exec touch {}/.gitkeep \\;"
+alias gitkeep="find . -type d -empty -not -path './.git/*' -exec touch {}/.gitkeep \;"
 
 # Various ssh access
 alias sshtailscale="ssh krit@nicol-nas"
@@ -131,10 +142,24 @@ gacm() {
 }
 # ----------------------------------------------
 
-# Various eval
+# various eval
 eval "$(starship init zsh)"
 
-# Various commands to load at startup
-#fastfetch
-#pokemon-colorscripts -r
-fastfetch --data-raw "$(pokemon-colorscripts -r)"
+# ----------------------------------------------
+# Startup Splash (Fastfetch + Pokemon)
+# Only run if in interactive mode (*l*) and commands exist
+case "$-" in
+*l*)
+  if command -v fastfetch >/dev/null 2>&1 && command -v pokemon-colorscripts >/dev/null 2>&1; then
+    # Run fastfetch using the pokemon output as the raw logo
+    fastfetch --data-raw "$(pokemon-colorscripts --no-title -r 1,3,6)"
+  elif command -v pokemon-colorscripts >/dev/null 2>&1; then
+    # Fallback: run just pokemon if fastfetch is missing
+    pokemon-colorscripts --no-title -r 1,3,6
+  elif command -v fastfetch >/dev/null 2>&1; then
+    # Fallback: run just fastfetch
+    fastfetch
+  fi
+  ;;
+esac
+# ----------------------------------------------
