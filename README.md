@@ -53,8 +53,3 @@
 
 ## gitconfig
 - git configuration (username/email/lfs) for my main account nicolkrit999
-
-
-## mac_nix_darwing-zshrc
-- zshrc specific for mac os. It adds its content into what is defined using nix-darwin
-
