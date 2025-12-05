@@ -1,3 +1,4 @@
+# ----------------------------------------------
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -11,11 +12,124 @@ zstyle :compinstall filename '/home/krit/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+# ----------------------------------------------
 
+# ----------------------------------------------
 # Export current java path to allow to use the current java version
 export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
 # Export current jdtls path to allow to user the current java version
 export JDTLS_BIN=$HOME/tools/jdtls/bin/jdtls
+# ----------------------------------------------
+
+# ... (Keep your lines 1-20 unchanged: HISTFILE, exports, etc.) ...
+
+# ----------------------------------------------
+# Aliases
+alias dotfiles="cd ~/krit/dotfiles"
+alias dev-projects="cd ~/developing-projects/"
+alias dev-java="cd ~/developing-projects/java-projects/"
+alias dev-python="cd ~/developing-projects/python-projects/"
+alias dev-latex="cd ~/developing-projects/latex-projects/"
+alias dev-html="cd ~/developing-projects/html-projects/"
+
+# Built in command improvement (FIXED: Added 'alias' keyword and removed spaces)
+alias sudo="sudo "
+alias l="eza -lh --icons=auto"
+alias ls="eza -1  --icons=auto"
+alias ll="eza -lha --icons=auto --sort=name --group-directories-first"
+alias ld="eza -lhD --icons=auto"
+alias lt="eza --icons=auto --tree"
+alias c="clear"
+alias h="history"
+alias which="type -a"
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
+alias untar="tar -xvzf"
+alias zshrc="source ~/.zshrc"
+alias reb="sudo reboot"
+alias shut="sudo shutdown -h now"
+alias del="sudo rm -r"
+alias cp="cp -i"
+alias mkdir="mkdir -p"
+alias aliasdelete="find . -type l -print -delete"
+alias .1="cd .."
+alias .2="cd ../.."
+alias .3="cd ../../.."
+alias .4="cd ../../../.."
+alias .5="cd ../../../../.."
+alias .6="cd ../../../../../.."
+
+# Useful directory navigation
+alias downloads="cd ~/Downloads"
+alias config="cd ~/.config"
+alias share="cd ~/.local/share/"
+alias opt="cd /opt/"
+alias home="cd /home/"
+alias tmp="cd /tmp/"
+alias bin="cd /bin/"
+alias lib="cd /lib/"
+alias etc="cd /etc/"
+alias usr="cd /usr/"
+
+# Useful git aliases
+alias clone="git clone"
+alias clonedepth1="git clone --depth=1"
+alias gitkeep="find . -type d -empty -not -path './.git/*' -exec touch {}/.gitkeep \\;"
+
+# Various ssh access
+alias sshtailscale="ssh krit@nicol-nas"
+alias sshnasip="ssh krit@192.168.1.98"
+alias sshos="ssh -l kritpio.nicol@supsi.ch linux1-didattica.supsi.ch"
+alias nas-ssh="cloudflared access ssh --hostname ssh.nicolkrit.ch"
+
+# Useful developing commands
+alias rebuildmvn="cd ~/java-projects && mvn clean install"
+
+# ----------------------------------------------
+# --- Git Auto Commit Functions (Current Folder Only) ---
+
+# Ensure no old aliases conflict with these functions
+unalias gac 2>/dev/null
+unalias gacm 2>/dev/null
+
+# 1. gac: Auto-commit with Date (Current folder only)
+gac() {
+    # Check if we are in a git repo
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "Error: $(pwd) is not a git repository."
+        return 1
+    fi
+
+    echo "Processing repository: $(pwd)"
+    git add .
+    git commit -m "General-$(date +%Y-%m-%d)"
+    git push
+}
+
+# 2. gacm: Interactive Commit (Current folder only)
+gacm() {
+    # Check if we are in a git repo
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "Error: $(pwd) is not a git repository."
+        return 1
+    fi
+
+    # Ask for message
+    echo -n "Enter commit message: "
+    read msg
+
+    if [ -z "$msg" ]; then
+        echo "Aborting: Commit message cannot be empty."
+        return 1
+    fi
+
+    echo "Processing repository: $(pwd)"
+    git add .
+    git commit -m "$msg"
+    git push
+}
+# ----------------------------------------------
 
 # Various eval
 eval "$(starship init zsh)"
@@ -23,4 +137,4 @@ eval "$(starship init zsh)"
 # Various commands to load at startup
 #fastfetch
 #pokemon-colorscripts -r
-fastfetch --data-raw "$(pokemon-colorscripts -r)" #this override fastfetch native image and pt the output of pokemon-colorscripts -r as the fastfetch logo
+fastfetch --data-raw "$(pokemon-colorscripts -r)"
