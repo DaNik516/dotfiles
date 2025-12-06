@@ -36,7 +36,7 @@ export FZF_DEFAULT_OPTS=" \
 
 # ----------------------------------------------
 # Aliases
-alias dotfiles="cd ~/krit/dotfiles"
+alias dotfiles="cd ~/dotfiles"
 alias dev-projects="cd ~/developing-projects/"
 alias dev-java="cd ~/developing-projects/java-projects/"
 alias dev-python="cd ~/developing-projects/python-projects/"
@@ -144,6 +144,7 @@ gacm() {
 
 # various eval
 eval "$(starship init zsh)"
+eval "$(pay-respects zsh)"
 
 # ----------------------------------------------
 # Startup Splash (Fastfetch + Pokemon)
