@@ -463,7 +463,7 @@ local plugin_specs = {
       java_debug_adapter = { enable = true },
       notifications = { dap = true },
     })
-    
+
     local bundles = {}
     local mason_path = vim.fn.stdpath("data") .. "/mason/packages"
     
@@ -484,6 +484,9 @@ local plugin_specs = {
 
     require("lspconfig").jdtls.setup({
       cmd = { os.getenv("JDTLS_BIN") },
+      init_options = {
+        bundles = bundles
+      }
     })
   end,
   ft = { "java" },
