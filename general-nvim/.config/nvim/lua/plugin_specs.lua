@@ -463,6 +463,24 @@ local plugin_specs = {
       java_debug_adapter = { enable = true },
       notifications = { dap = true },
     })
+    
+    local bundles = {}
+    local mason_path = vim.fn.stdpath("data") .. "/mason/packages"
+    
+    -- Find the Debug Adapter jar
+    local debug_adapter = mason_path .. "/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
+    local debug_jar = vim.fn.glob(debug_adapter)
+    if debug_jar ~= "" then
+      table.insert(bundles, debug_jar)
+    end
+
+    -- Find the Test Runner jar
+    local test_runner = mason_path .. "/java-test/extension/server/*.jar"
+    local test_jars = vim.fn.glob(test_runner, true, true)
+    if #test_jars > 0 then
+      vim.list_extend(bundles, test_jars)
+    end
+
 
     require("lspconfig").jdtls.setup({
       cmd = { os.getenv("JDTLS_BIN") },
