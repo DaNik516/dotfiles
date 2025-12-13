@@ -481,7 +481,6 @@ local plugin_specs = {
       vim.list_extend(bundles, test_jars)
     end
 
-
     require("lspconfig").jdtls.setup({
       cmd = { os.getenv("JDTLS_BIN") },
       init_options = {
