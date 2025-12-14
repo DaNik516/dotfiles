@@ -18,7 +18,7 @@ local new_capability = {
 }
 
 return {
-  cmd = { "delance-langserver", "--stdio" },
+  cmd = { "pyright-langserver", "--stdio" },
   settings = {
     pyright = {
       -- disable import sorting and use Ruff for this
