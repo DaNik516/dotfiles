@@ -57,3 +57,6 @@ The repo should be cloned in the main user folder, meaning the path should be ~/
 
 ## gitconfig
 - git configuration (username/email/lfs) for my main account nicolkrit999
+
+## quickshell
+- setup for caelestia quickshell on hyprland
