@@ -728,7 +728,7 @@ local plugin_specs = {
     config = function()
       vim.g.instant_username = vim.env.USER or vim.env.USERNAME or "krit"
       vim.g.instant_server_host = "127.0.0.1" -- Localhost
-      vim.g.instant_server_port = 8080        -- The port you chose above
+      vim.g.instant_server_port = 8081        -- The port you chose above
     end,
   },
 
