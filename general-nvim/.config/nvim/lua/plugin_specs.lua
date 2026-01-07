@@ -36,34 +36,117 @@ local plugin_specs = {
       require("config.nvim-cmp")
     end,
   },
+-- 1. Unified Mason Setup
   {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup({
+        registries = {
+          "github:nvim-java/mason-registry",
+          "github:mason-org/mason-registry",
+        },
+      })
+    end,
+  },
+
+  -- 2. Unified Mason-LSPConfig
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+    config = function()
+      require("mason-lspconfig").setup({
+        -- Only auto-install on non-Nix systems to prevent read-only errors
+        ensure_installed = not vim.uv.fs_stat("/etc/nixos") and {
+          "lua_ls", "pyright", "ruff", "bashls", "spring-boot-tools"
+        } or {},
+      })
+    end,
+  },
+    {
+    "nvim-java/nvim-java",
+    dependencies = {
+      "nvim-java/lua-async-await",
+      "nvim-java/nvim-java-core",
+      "nvim-java/nvim-java-test",
+      "nvim-java/nvim-java-dap",
+      "MunifTanjim/nui.nvim",
+      "neovim/nvim-lspconfig",
+      "mfussenegger/nvim-dap",
+    },
+            config = function()
+      local is_nixos = vim.uv.fs_stat("/etc/nixos") ~= nil
+
+      -- 1. Setup nvim-java
+      require('java').setup({
+        jdk = { auto_install = not is_nixos },
+        java_test = { enable = true },
+        java_debug_adapter = { enable = true },
+        spring_boot_tools = { enable = true },
+        jdtls = {
+          path = vim.env.JDTLS_BIN or vim.fn.expand("~/tools/jdtls/bin/jdtls"),
+          settings = {
+            java = { home = vim.env.JAVA_HOME }
+          },
+        },
+      })
+
+      -- 2. Helper to find jars
+      local function get_bundles()
+        if not is_nixos then return {} end
+        local bundles = {}
+        local debug_path = vim.fn.expand("~/.local/share/nvim/nvim-java/packages/java-debug-adapter/extension/server")
+        local test_path = vim.fn.expand("~/.local/share/nvim/nvim-java/packages/java-test/extension/server")
+
+        local debug_jar = vim.fn.glob(debug_path .. "/*.jar")
+        if debug_jar ~= "" then table.insert(bundles, debug_jar) end
+
+        local test_jars = vim.fn.glob(test_path .. "/*.jar", true, true)
+        for _, jar in ipairs(test_jars) do table.insert(bundles, jar) end
+        
+        return bundles
+      end
+
+      -- 3. Setup JDTLS (Wrapped in Silence)
+      -- We save the original notifier, mute it, run the setup, and restore it.
+      local old_notify = vim.notify
+      vim.notify = function() end -- Total silence
+      
+      -- Using pcall ensures we restore notification even if setup crashes
+      pcall(function()
+        require('lspconfig').jdtls.setup({
+          init_options = {
+            bundles = get_bundles()
+          }
+        })
+      end)
+      
+      vim.notify = old_notify -- Restore functionality
+      
+      -- 4. Force-trigger DAP configuration
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "java",
+        callback = function()
+          vim.defer_fn(function()
+            pcall(vim.cmd, "JavaDapConfig")
+          end, 1000)
+        end
+      })
+    end,
+  },
+
+  
+
+  -- 4. Core LSP Config (Loads your lua/config/lsp.lua)
+ {
     "neovim/nvim-lspconfig",
-    config = function()
-      require("config.lsp")
+    dependencies = { "williamboman/mason-lspconfig.nvim", "nvim-java/nvim-java" },
+    -- No config function here anymore.
+    -- We load our own lsp config file separately.
+    init = function()
+       -- This ensures our lua/config/lsp.lua runs after the plugin is added to RTP
+       require("config.lsp")
     end,
   },
-
-  {
-  "mason-org/mason.nvim",
-  config = function()
-    require("mason").setup({
-      registries = {
-        "github:nvim-java/mason-registry",
-        "github:mason-org/mason-registry",
-      },
-    })
-  end,
-  },
-
-  {
-    "mason-org/mason-lspconfig.nvim",
-    dependencies = { "mason-org/mason.nvim" },
-    config = function()
-      require("mason-lspconfig").setup()
-    end,
-  },
-
-
   {
     "dnlhc/glance.nvim",
     config = function()
@@ -71,24 +154,18 @@ local plugin_specs = {
     end,
     event = "VeryLazy",
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    lazy = true,
-    build = ":TSUpdate",
+  { "machakann/vim-swap", event = "VeryLazy" },
+{
+    "nvim-treesitter/nvim-treesitter", -- Wrapped in a check because it is installed in neovim.nix --
+    build = function()
+      if not vim.uv.fs_stat("/etc/nixos") then
+        vim.cmd(":TSUpdate")
+      end
+    end,
     config = function()
       require("config.treesitter")
     end,
   },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    event = "VeryLazy",
-    branch = "master",
-    config = function()
-      require("config.treesitter-textobjects")
-    end,
-  },
-  { "machakann/vim-swap", event = "VeryLazy" },
-
   {
     "vlime/vlime",
     enabled = function()
@@ -424,72 +501,6 @@ local plugin_specs = {
   },
 
 
--- Java support
-{
-  "nvim-java/nvim-java",
-  dependencies = {
-    "nvim-java/lua-async-await",
-    "nvim-java/nvim-java-core",
-    "nvim-java/nvim-java-test",
-    "nvim-java/nvim-java-dap",
-    "MunifTanjim/nui.nvim",
-    "neovim/nvim-lspconfig",
-    "mfussenegger/nvim-dap",
-    {
-      "williamboman/mason.nvim",
-      opts = {
-        registries = {
-          "github:nvim-java/mason-registry",
-          "github:mason-org/mason-registry",
-        },
-      },
-    },
-    {
-      "williamboman/mason-lspconfig.nvim",
-      opts = {
-        ensure_installed = {
-          "spring-boot-tools",
-        },
-      },
-    },
-  },
-  config = function()
-    require("java").setup({
-      jdk = {
-        auto_install = false,
-        path = os.getenv("JAVA_HOME"),
-      },
-      java_test = { enable = true },
-      java_debug_adapter = { enable = true },
-      notifications = { dap = true },
-    })
-
-    local bundles = {}
-    local mason_path = vim.fn.stdpath("data") .. "/mason/packages"
-    
-    -- Find the Debug Adapter jar
-    local debug_adapter = mason_path .. "/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
-    local debug_jar = vim.fn.glob(debug_adapter)
-    if debug_jar ~= "" then
-      table.insert(bundles, debug_jar)
-    end
-
-    -- Find the Test Runner jar
-    local test_runner = mason_path .. "/java-test/extension/server/*.jar"
-    local test_jars = vim.fn.glob(test_runner, true, true)
-    if #test_jars > 0 then
-      vim.list_extend(bundles, test_jars)
-    end
-
-    require("lspconfig").jdtls.setup({
-      cmd = { os.getenv("JDTLS_BIN") },
-      init_options = {
-        bundles = bundles
-      }
-    })
-  end,
-  ft = { "java" },
-},
 
 
 
