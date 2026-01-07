@@ -1,17 +1,19 @@
--- Setup nvim-cmp.
-local cmp = require("cmp")
+-- 1. Protect against crash if cmp isn't loaded yet
+local status_cmp, cmp = pcall(require, "cmp")
+if not status_cmp then return end
 
--- The extentions needed by nvim-cmp should be loaded beforehand
-require("cmp_nvim_lsp")
-require("cmp_path")
-require("cmp_buffer")
-require("cmp_omni")
-require("cmp_nvim_ultisnips")
-require("cmp_cmdline")
+-- 2. Protect against crash if mini.icons isn't loaded yet
+local status_icons, MiniIcons = pcall(require, "mini.icons")
 
-local MiniIcons = require("mini.icons")
+-- Standard source loading (pcall wrapped to be extra safe)
+pcall(require, "cmp_nvim_lsp")
+pcall(require, "cmp_path")
+pcall(require, "cmp_buffer")
+pcall(require, "cmp_omni")
+pcall(require, "cmp_nvim_ultisnips")
+pcall(require, "cmp_cmdline")
 
--- UltiSnips configuration - separate keys for snippet navigation
+-- UltiSnips configuration
 vim.g.UltiSnipsExpandTrigger = "<Tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<C-j>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<C-k>"
@@ -19,7 +21,6 @@ vim.g.UltiSnipsJumpBackwardTrigger = "<C-k>"
 cmp.setup {
   snippet = {
     expand = function(args)
-      -- For `ultisnips` user.
       vim.fn["UltiSnips#Anon"](args.body)
     end,
   },
@@ -45,10 +46,10 @@ cmp.setup {
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
   },
   sources = {
-    { name = "nvim_lsp" }, -- For nvim-lsp
-    { name = "ultisnips" }, -- For ultisnips user.
-    { name = "path" }, -- for path completion
-    { name = "buffer", keyword_length = 2 }, -- for buffer word completion
+    { name = "nvim_lsp" },
+    { name = "ultisnips" },
+    { name = "path" },
+    { name = "buffer", keyword_length = 2 },
   },
   completion = {
     keyword_length = 1,
@@ -57,59 +58,53 @@ cmp.setup {
   view = {
     entries = "custom",
   },
-  -- solution taken from https://github.com/echasnovski/mini.nvim/issues/1007#issuecomment-2258929830
   formatting = {
     format = function(_, vim_item)
-      local icon, hl = MiniIcons.get("lsp", vim_item.kind)
-      vim_item.kind = icon .. " " .. vim_item.kind
-      vim_item.kind_hl_group = hl
+      -- Only use MiniIcons if the plugin was successfully loaded
+      if status_icons then
+        local icon, hl = MiniIcons.get("lsp", vim_item.kind)
+        vim_item.kind = icon .. " " .. vim_item.kind
+        vim_item.kind_hl_group = hl
+      end
       return vim_item
     end,
   },
 }
 
+-- [Keep your existing filetype and cmdline configurations below...]
+-- (They use the 'cmp' variable we already protected above)
+
 cmp.setup.filetype("tex", {
   sources = {
     { name = "omni" },
-    { name = "ultisnips" }, -- For ultisnips user.
-    { name = "buffer", keyword_length = 2 }, -- for buffer word completion
-    { name = "path" }, -- for path completion
+    { name = "ultisnips" },
+    { name = "buffer", keyword_length = 2 },
+    { name = "path" },
   },
 })
 
 cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = "buffer" },
-  },
+  sources = { { name = "buffer" } },
 })
 
 cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = "path" },
-  }, {
-    { name = "cmdline" },
-  }),
+  sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
   matching = { disallow_symbol_nonprefix_matching = false },
 })
 
---  see https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-dark-theme-colors-to-the-menu
+-- Visual highlighting
 vim.cmd([[
   highlight! link CmpItemMenu Comment
-  " gray
   highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
-  " blue
   highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
   highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
-  " light blue
   highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
   highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
   highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
-  " pink
   highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
   highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
-  " front
   highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
   highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
   highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
