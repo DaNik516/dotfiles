@@ -68,15 +68,6 @@ api.nvim_create_autocmd({ "FileChangedShellPost" }, {
   end,
 })
 
-api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
-  pattern = "*",
-  group = "auto_read",
-  callback = function()
-    if fn.getcmdwintype() == "" then
-      vim.cmd("checktime")
-    end
-  end,
-})
 
 -- Resize all windows when we resize the terminal
 api.nvim_create_autocmd("VimResized", {
@@ -217,28 +208,3 @@ api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
   end,
 })
 
--- ref: https://vi.stackexchange.com/a/169/15292
-api.nvim_create_autocmd("BufReadPre", {
-  group = api.nvim_create_augroup("large_file", { clear = true }),
-  pattern = "*",
-  desc = "optimize for large file",
-  callback = function(ev)
-    local file_size_limit = 524288 -- 0.5MB
-    local f = ev.file
-
-    if fn.getfsize(f) > file_size_limit or fn.getfsize(f) == -2 then
-      vim.o.eventignore = "all"
-
-      -- show ruler
-      vim.o.ruler = true
-
-      --  turning off relative number helps a lot
-      vim.wo.relativenumber = false
-      vim.wo.number = false
-
-      vim.bo.swapfile = false
-      vim.bo.bufhidden = "unload"
-      vim.bo.undolevels = -1
-    end
-  end,
-})

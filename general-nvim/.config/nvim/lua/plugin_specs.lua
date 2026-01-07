@@ -728,7 +728,7 @@ local plugin_specs = {
     "Pocco81/auto-save.nvim",
     config = function()
       require("auto-save").setup {
-        trigger_events = { "InsertLeave" },
+        trigger_events = { "FocusLost", "BufLeave" },
       }
     end,
   },

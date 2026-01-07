@@ -21,20 +21,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       opts = vim.tbl_extend("force", { silent = true, buffer = bufnr }, opts or {})
       vim.keymap.set(mode, l, r, opts)
     end
-
-    -- [START] Format on Save Logic
-    -- This works for EVERY filetype as long as the LSP supports formatting
-    if client.supports_method("textDocument/formatting") then
-      local format_grp = vim.api.nvim_create_augroup("LspFormatting_" .. bufnr, { clear = true })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = format_grp,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-      })
-    end
-    -- [END] Format on Save Logic
+ 
 
     -- Custom Go-To-Definition logic
     map("n", "gd", function()
@@ -66,9 +53,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local servers = {
   pyright = { cmd = { "pyright-langserver", "--stdio" } },
   ruff = { cmd = { "ruff", "server" } },
-  lua_ls = { cmd = { "lua-language-server" } },
+
+  -- Lua language server with formatter
+  lua_ls = {
+  cmd = { "lua-language-server" },
+  settings = {
+    Lua = {
+      format = { enable = true }, -- Explicitly enable
+    },
+  },
+},
+
+
   bashls = { cmd = { "bash-language-server", "start" } },
-  yamlls = { cmd = { "yaml-language-server", "--stdio" } },
+
+  -- yamlls configuration with formatter
+  yamlls = {
+    cmd = { "yaml-language-server", "--stdio" },
+    settings = { yaml = { format = { enable = true } } }
+  },
+
+
   -- nixd configuration with formatter
   nixd = { 
     cmd = { "nixd" },
