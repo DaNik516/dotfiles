@@ -120,6 +120,10 @@ cowask() {
     read input
     cowsay "$input"
 }
+
+# Various
+alias borg-status="journalctl -fu bormatic"
+
 # ----------------------------------------------
 # --- Git Auto Commit Functions (Current Folder Only) ---
 
