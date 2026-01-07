@@ -44,6 +44,8 @@ alias dev-latex="cd ~/developing-projects/latex-projects/"
 alias dev-html="cd ~/developing-projects/html-projects/"
 
 # Built in command improvement
+alias cat="bat"
+alias pcat="bat --style=plain"
 alias sudo="sudo "
 alias l="eza -lh --icons=auto"
 alias ls="eza -1  --icons=auto"
@@ -72,7 +74,7 @@ alias .5="cd ../../../../.."
 alias .6="cd ../../../../../.."
 
 # Useful directory navigation
-alias downloads="cd ~/Downloads"
+alias down="cd ~/Downloads"
 alias config="cd ~/.config"
 alias share="cd ~/.local/share/"
 alias opt="cd /opt/"
@@ -82,6 +84,10 @@ alias bin="cd /bin/"
 alias lib="cd /lib/"
 alias etc="cd /etc/"
 alias usr="cd /usr/"
+alias pictures="cd ~/Pictures/"
+alias videos="cd ~/Videos/"
+alias doc="cd ~/Documents/"
+alias temp="cd ~/Templates/"
 
 # Useful git aliases
 alias clone="git clone"
@@ -96,8 +102,24 @@ alias sshos="ssh -l kritpio.nicol@supsi.ch linux1-didattica.supsi.ch"
 alias nas-ssh="cloudflared access ssh --hostname ssh.nicolkrit.ch"
 
 # Useful developing commands
-alias rebuildmvn="cd ~/java-projects && mvn clean install"
+alias rebuildmvn="cd ~/developing-projects/java-projects && mvn clean install"
 
+# Fun commands
+alias pipes1="pipes -t 1"
+alias pipes2="pipes -t 2"
+alias pipes3="pipes -t 3"
+alias pipes4="pipes -t 4"
+alias pipes5="pipes -t 5"
+alias pipes6="pipes -t 6"
+alias pipes7="pipes -t 7"
+alias pipes8="pipes -t 8"
+alias pipes9="pipes -t 9"
+alias bonsailive="cbonsai -l"
+cowask() {
+    echo -n "What should the cow say? "
+    read input
+    cowsay "$input"
+}
 # ----------------------------------------------
 # --- Git Auto Commit Functions (Current Folder Only) ---
 
