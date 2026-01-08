@@ -84,7 +84,7 @@ alias nas-ssh "cloudflared access ssh --hostname ssh.nicolkrit.ch"
 
 # Dev
 alias rebuildmvn "cd ~/developing-projects/java-projects && mvn clean install"
-
+alias dbx "DBX_CONTAINER_MANAGER=podman distrobox"
 # Fun
 alias pipes1 "pipes -t 1"
 alias pipes2 "pipes -t 2"

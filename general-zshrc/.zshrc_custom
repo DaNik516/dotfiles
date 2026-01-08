@@ -101,8 +101,9 @@ alias sshnasip="ssh krit@192.168.1.98"
 alias sshos="ssh -l kritpio.nicol@supsi.ch linux1-didattica.supsi.ch"
 alias nas-ssh="cloudflared access ssh --hostname ssh.nicolkrit.ch"
 
-# Useful developing commands
+# Dev
 alias rebuildmvn="cd ~/developing-projects/java-projects && mvn clean install"
+alias dbx="DBX_CONTAINER_MANAGER=podman distrobox"
 
 # Fun commands
 alias pipes1="pipes -t 1"
