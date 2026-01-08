@@ -18,7 +18,6 @@ set -gx FZF_DEFAULT_OPTS " \
 # ----------------------------------------------
 # 🔗 ALIASES
 # ----------------------------------------------
-
 alias cat "bat"
 alias pcat "bat --style=plain"
 alias sudo "sudo "
@@ -99,6 +98,9 @@ alias pipes9 "pipes -t 9"
 alias bonsailive "cbonsai -l"
 alias borg-status "journalctl -fu bormatic"
 
+# Fish-specific
+alias nd "nextd"
+alias pd "prevd"
 # ----------------------------------------------
 # 📝 FUNCTIONS
 # ----------------------------------------------
