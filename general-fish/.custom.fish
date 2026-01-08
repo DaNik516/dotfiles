@@ -100,6 +100,7 @@ alias bonsailive "cbonsai -l"
 # Borgmatic backup to nas
 alias borg-status "journalctl -fu borgmatic"
 alias borg-manual "sudo borgmatic --verbosity 1 --stats --progress"
+alias borg-unlock "sudo borgmatic break-lock"
 
 # Fish-specific
 alias nd "nextd"

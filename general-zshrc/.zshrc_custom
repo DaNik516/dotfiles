@@ -125,6 +125,7 @@ cowask() {
 # Borgmatic nas backup
 alias borg-status="journalctl -fu borgmatic"
 alias borg-manual="sudo borgmatic --verbosity 1 --stats --progress"
+alias borg-unlock="sudo borgmatic break-lock"
 
 # ----------------------------------------------
 # --- Git Auto Commit Functions (Current Folder Only) ---
