@@ -43,7 +43,7 @@ alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 alias untar="tar -xvzf"
-alias bashrc="source ~/.bashrc" # Changed from zshrc
+alias bash="source ~/.bashrc" # Changed from zshrc
 alias reb="reboot"
 alias shut="shutdown -h now"
 alias del="sudo rm -r"
