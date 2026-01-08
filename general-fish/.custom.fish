@@ -18,14 +18,6 @@ set -gx FZF_DEFAULT_OPTS " \
 # ----------------------------------------------
 # 🔗 ALIASES
 # ----------------------------------------------
-# Fish aliases are just functions, but 'alias' command is supported
-alias dotfiles "cd ~/dotfiles"
-alias dev-projects "cd ~/developing-projects/"
-alias dev-java "cd ~/developing-projects/java-projects/"
-alias dev-python "cd ~/developing-projects/python-projects/"
-alias dev-latex "cd ~/developing-projects/latex-projects/"
-alias dev-html "cd ~/developing-projects/html-projects/"
-
 alias cat "bat"
 alias pcat "bat --style=plain"
 alias sudo "sudo "
@@ -71,6 +63,12 @@ alias pictures "cd ~/Pictures/"
 alias videos "cd ~/Videos/"
 alias doc "cd ~/Documents/"
 alias temp "cd ~/Templates/"
+alias dot "cd ~/dotfiles"
+alias dev-projects "cd ~/developing-projects/"
+alias dev-java "cd ~/developing-projects/java-projects/"
+alias dev-python "cd ~/developing-projects/python-projects/"
+alias dev-latex "cd ~/developing-projects/latex-projects/"
+alias dev-html "cd ~/developing-projects/html-projects/"
 
 # Git
 alias clone "git clone"
@@ -86,7 +84,7 @@ alias nas-ssh "cloudflared access ssh --hostname ssh.nicolkrit.ch"
 
 # Dev
 alias rebuildmvn "cd ~/developing-projects/java-projects && mvn clean install"
-
+alias dbx "DBX_CONTAINER_MANAGER=podman distrobox"
 # Fun
 alias pipes1 "pipes -t 1"
 alias pipes2 "pipes -t 2"
@@ -98,8 +96,15 @@ alias pipes7 "pipes -t 7"
 alias pipes8 "pipes -t 8"
 alias pipes9 "pipes -t 9"
 alias bonsailive "cbonsai -l"
-alias borg-status "journalctl -fu bormatic"
 
+# Borgmatic backup to nas
+alias borg-status "journalctl -fu borgmatic"
+alias borg-manual "sudo borgmatic --verbosity 1 --stats --progress"
+alias borg-unlock "sudo borgmatic break-lock"
+
+# Fish-specific
+alias nd "nextd"
+alias pd "prevd"
 # ----------------------------------------------
 # 📝 FUNCTIONS
 # ----------------------------------------------

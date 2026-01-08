@@ -19,12 +19,6 @@ export FZF_DEFAULT_OPTS=" \
 # ----------------------------------------------
 # 🔗 ALIASES
 # ----------------------------------------------
-alias dotfiles="cd ~/dotfiles"
-alias dev-projects="cd ~/developing-projects/"
-alias dev-java="cd ~/developing-projects/java-projects/"
-alias dev-python="cd ~/developing-projects/python-projects/"
-alias dev-latex="cd ~/developing-projects/latex-projects/"
-alias dev-html="cd ~/developing-projects/html-projects/"
 
 # Replacements
 alias cat="bat"
@@ -43,7 +37,7 @@ alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 alias untar="tar -xvzf"
-alias bashrc="source ~/.bashrc" # Changed from zshrc
+alias bash="source ~/.bashrc" # Changed from zshrc
 alias reb="reboot"
 alias shut="shutdown -h now"
 alias del="sudo rm -r"
@@ -73,6 +67,12 @@ alias pictures="cd ~/Pictures/"
 alias videos="cd ~/Videos/"
 alias doc="cd ~/Documents/"
 alias temp="cd ~/Templates/"
+alias dot="cd ~/dotfiles"
+alias dev-projects="cd ~/developing-projects/"
+alias dev-java="cd ~/developing-projects/java-projects/"
+alias dev-python="cd ~/developing-projects/python-projects/"
+alias dev-latex="cd ~/developing-projects/latex-projects/"
+alias dev-html="cd ~/developing-projects/html-projects/"
 
 # Git
 alias clone="git clone"
@@ -88,6 +88,7 @@ alias nas-ssh="cloudflared access ssh --hostname ssh.nicolkrit.ch"
 
 # Dev
 alias rebuildmvn="cd ~/developing-projects/java-projects && mvn clean install"
+alias dbx="DBX_CONTAINER_MANAGER=podman distrobox"
 
 # Fun
 alias pipes1="pipes -t 1"
@@ -101,7 +102,10 @@ alias pipes8="pipes -t 8"
 alias pipes9="pipes -t 9"
 alias bonsailive="cbonsai -l"
 
-alias borg-status="journalctl -fu bormatic"
+# Borgmatic backup nas
+alias borg-status="journalctl -fu borgmatic"
+alias borg-manual="sudo borgmatic --verbosity 1 --stats --progress"
+alias borg-unlock="sudo borgmatic break-lock"
 
 # ----------------------------------------------
 # 📝 FUNCTIONS
