@@ -18,13 +18,6 @@ set -gx FZF_DEFAULT_OPTS " \
 # ----------------------------------------------
 # 🔗 ALIASES
 # ----------------------------------------------
-# Fish aliases are just functions, but 'alias' command is supported
-alias dotfiles "cd ~/dotfiles"
-alias dev-projects "cd ~/developing-projects/"
-alias dev-java "cd ~/developing-projects/java-projects/"
-alias dev-python "cd ~/developing-projects/python-projects/"
-alias dev-latex "cd ~/developing-projects/latex-projects/"
-alias dev-html "cd ~/developing-projects/html-projects/"
 
 alias cat "bat"
 alias pcat "bat --style=plain"
@@ -71,6 +64,12 @@ alias pictures "cd ~/Pictures/"
 alias videos "cd ~/Videos/"
 alias doc "cd ~/Documents/"
 alias temp "cd ~/Templates/"
+alias dot "cd ~/dotfiles"
+alias dev-projects "cd ~/developing-projects/"
+alias dev-java "cd ~/developing-projects/java-projects/"
+alias dev-python "cd ~/developing-projects/python-projects/"
+alias dev-latex "cd ~/developing-projects/latex-projects/"
+alias dev-html "cd ~/developing-projects/html-projects/"
 
 # Git
 alias clone "git clone"

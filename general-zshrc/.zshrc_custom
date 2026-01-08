@@ -36,12 +36,6 @@ export FZF_DEFAULT_OPTS=" \
 
 # ----------------------------------------------
 # Aliases
-alias dotfiles="cd ~/dotfiles"
-alias dev-projects="cd ~/developing-projects/"
-alias dev-java="cd ~/developing-projects/java-projects/"
-alias dev-python="cd ~/developing-projects/python-projects/"
-alias dev-latex="cd ~/developing-projects/latex-projects/"
-alias dev-html="cd ~/developing-projects/html-projects/"
 
 # Built in command improvement
 alias cat="bat"
@@ -88,6 +82,12 @@ alias pictures="cd ~/Pictures/"
 alias videos="cd ~/Videos/"
 alias doc="cd ~/Documents/"
 alias temp="cd ~/Templates/"
+alias dot="cd ~/dotfiles"
+alias dev-projects="cd ~/developing-projects/"
+alias dev-java="cd ~/developing-projects/java-projects/"
+alias dev-python="cd ~/developing-projects/python-projects/"
+alias dev-latex="cd ~/developing-projects/latex-projects/"
+alias dev-html="cd ~/developing-projects/html-projects/"
 
 # Useful git aliases
 alias clone="git clone"
