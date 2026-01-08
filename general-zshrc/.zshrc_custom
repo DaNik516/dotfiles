@@ -122,8 +122,9 @@ cowask() {
     cowsay "$input"
 }
 
-# Various
-alias borg-status="journalctl -fu bormatic"
+# Borgmatic nas backup
+alias borg-status="journalctl -fu borgmatic"
+alias borg-manual="sudo borgmatic --verbosity 1 --stats"
 
 # ----------------------------------------------
 # --- Git Auto Commit Functions (Current Folder Only) ---

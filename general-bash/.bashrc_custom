@@ -102,7 +102,9 @@ alias pipes8="pipes -t 8"
 alias pipes9="pipes -t 9"
 alias bonsailive="cbonsai -l"
 
-alias borg-status="journalctl -fu bormatic"
+# Borgmatic backup nas 
+alias borg-status="journalctl -fu borgmatic"
+alias borg-manual="sudo borgmatic --verbosity 1 --stats"
 
 # ----------------------------------------------
 # 📝 FUNCTIONS

@@ -96,7 +96,10 @@ alias pipes7 "pipes -t 7"
 alias pipes8 "pipes -t 8"
 alias pipes9 "pipes -t 9"
 alias bonsailive "cbonsai -l"
-alias borg-status "journalctl -fu bormatic"
+
+# Borgmatic backup to nas
+alias borg-status "journalctl -fu borgmatic"
+alias borg-manual "sudo borgmatic --verbosity 1 --stats"
 
 # Fish-specific
 alias nd "nextd"
