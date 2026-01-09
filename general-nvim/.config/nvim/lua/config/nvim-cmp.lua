@@ -47,6 +47,7 @@ cmp.setup {
   },
   sources = {
     { name = "nvim_lsp" },
+    { name = "copilot"},
     { name = "ultisnips" },
     { name = "path" },
     { name = "buffer", keyword_length = 2 },

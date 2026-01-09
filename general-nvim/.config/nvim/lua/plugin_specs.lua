@@ -658,12 +658,22 @@ local plugin_specs = {
   },
   {
     "zbirenbaum/copilot.lua",
-    event = "VeryLazy",
+    cmd = "Copilot",
+    event = "InsertEnter",
     config = function()
       require("copilot").setup({
-        suggestion = { enabled = true },
-        panel = { enabled = true },
+        suggestion = { enabled = false },
+        panel = { enabled = false },
       })
+    end,
+  },
+
+  {
+    "zbirenbaum/copilot-cmp",
+    event = "InsertEnter",
+    dependencies = { "zbirenbaum/copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
     end,
   },
   {
@@ -690,7 +700,7 @@ local plugin_specs = {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = "Trouble",
-    opts = {use_diagnostics_signs = true},
+    opts = { use_diagnostics_signs = true },
   },
   {
     -- show hint for code actions, the user can also implement code actions themselves,

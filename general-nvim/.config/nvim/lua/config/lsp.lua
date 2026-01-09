@@ -17,7 +17,7 @@ lua_ls = {
         workspace = {
           checkThirdParty = false,
           -- Tells LSP to look at everything in the current working directory
-          library = { vim.fn.getcwd() }, 
+          library = { vim.fn.getcwd() },
         },
       },
     },
