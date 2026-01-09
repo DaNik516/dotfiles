@@ -102,7 +102,7 @@ local plugin_specs = {
 
         local test_jars = vim.fn.glob(test_path .. "/*.jar", true, true)
         for _, jar in ipairs(test_jars) do table.insert(bundles, jar) end
-        
+
         return bundles
       end
 
@@ -110,7 +110,7 @@ local plugin_specs = {
       -- We save the original notifier, mute it, run the setup, and restore it.
       local old_notify = vim.notify
       vim.notify = function() end -- Total silence
-      
+
       -- Using pcall ensures we restore notification even if setup crashes
       pcall(function()
         require('lspconfig').jdtls.setup({
@@ -119,9 +119,9 @@ local plugin_specs = {
           }
         })
       end)
-      
+
       vim.notify = old_notify -- Restore functionality
-      
+
       -- 4. Force-trigger DAP configuration
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "java",
@@ -134,7 +134,7 @@ local plugin_specs = {
     end,
   },
 
-  
+
 
   -- 4. Core LSP Config (Loads your lua/config/lsp.lua)
  {
@@ -256,7 +256,7 @@ local plugin_specs = {
 
   {
     "nvim-lualine/lualine.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     cond = firenvim_not_active,
     config = function()
       require("config.lualine")
@@ -338,7 +338,7 @@ local plugin_specs = {
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
     enabled = function()
-      return vim.g.is_win or vim.g.is_mac
+      return vim.g.is_win or vim.g.is_mac or vim.g.is_linux
     end,
     config = true, -- default settings
     submodules = false, -- not needed, submodules are required only for tests
@@ -459,7 +459,7 @@ local plugin_specs = {
     config = function()
       require("config.gitsigns")
     end,
-    event = "BufRead",
+    event = "VeryLazy",
     version = "*",
   },
 
@@ -486,7 +486,7 @@ local plugin_specs = {
   {
     "iamcco/markdown-preview.nvim",
     enabled = function()
-      return vim.g.is_win or vim.g.is_mac
+      return vim.g.is_win or vim.g.is_mac or vim.g.is_linux
     end,
     build = "cd app && npm install && git restore .",
     ft = { "markdown" },
@@ -561,7 +561,7 @@ local plugin_specs = {
   {
     "glacambre/firenvim",
     enabled = function()
-      return vim.g.is_win or vim.g.is_mac
+      return vim.g.is_win or vim.g.is_mac or vim.g.is_linux
     end,
     -- it seems that we can only call the firenvim function directly.
     -- Using vim.fn or vim.cmd to call this function will fail.
@@ -640,7 +640,7 @@ local plugin_specs = {
 
   {
     "j-hui/fidget.nvim",
-    event = "BufRead",
+    event = "VeryLazy",
     config = function()
       require("config.fidget-nvim")
     end,
@@ -656,23 +656,26 @@ local plugin_specs = {
       },
     },
   },
+ {
+    "zbirenbaum/copilot.lua",
+    event = "VeryLazy",
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = true },
+        panel = { enabled = true },
+      })
+    end,
+  },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "zbirenbaum/copilot.lua" },
+      { "nvim-lua/plenary.nvim" },
     },
     opts = {
-      debug = true, -- Enable debugging
-      -- See Configuration section for rest
+      debug = true,
     },
-    cmd = { "CopilotChat" },
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    config = function()
-      require("copilot").setup {}
-    end,
+    cmd = { "CopilotChat", "CopilotChatOpen", "CopilotChatToggle" },
   },
   {
     "smjonas/live-command.nvim",
@@ -698,7 +701,7 @@ local plugin_specs = {
   },
   {
     "catgoose/nvim-colorizer.lua",
-    event = "BufReadPre",
+    event = "VeryLazy",
     opts = { -- set to setup table
     },
   },
