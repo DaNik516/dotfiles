@@ -4,6 +4,10 @@ local uv = vim.uv
 -- Save key strokes (now we do not need to press shift to enter command mode).
 keymap.set({ "n", "x" }, ";", ":")
 
+-- Project-wide diagnostic with lsp server
+keymap.set("n", "<leader>xd", "<cmd>Telescope diagnostics<cr>", { desc = "Project Diagnostics" })
+
+
 -- Turn the word under cursor to upper case
 keymap.set("i", "<c-u>", "<Esc>viwUea")
 
@@ -171,7 +175,10 @@ keymap.set('n', '<leader>jf', '<cmd>JavaRefactorExtractField<cr>', { desc = 'Jav
 -- Java Settings
 keymap.set('n', '<leader>jj', '<cmd>JavaSettingsChangeRuntime<cr>', { desc = 'Java: Change Runtime' })
 
-
+-- Previews
+keymap.set("n", "<A-m>", "<cmd>MarkdownPreviewToggle<cr>", { silent = true, desc = "Markdown Preview" })
+keymap.set("n", "]]", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Next Markdown Header" })
+keymap.set("n", "[[", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Previous Markdown Header" })
 
 -- General code runner
 -- Universal run command that detects file type
@@ -287,7 +294,7 @@ end, { desc = "close floating win" })
 local function uncomment_lines()
   -- Get the current filetype
   local ft = vim.bo.filetype
-  
+
   -- Define comment patterns for different filetypes
   -- Pattern captures leading whitespace in group 1, then matches comment delimiter + optional space
   local comment_patterns = {
@@ -322,12 +329,11 @@ local function uncomment_lines()
     clojure = "^(%s*);+%s?",
     lisp = "^(%s*);+%s?",
     scheme = "^(%s*);+%s?",
-    r = "^(%s*)#%s?",
     julia = "^(%s*)#%s?",
     dart = "^(%s*)//%s?",
     groovy = "^(%s*)//%s?",
   }
-  
+
   -- Block comment patterns (for /* */ style comments)
   local block_comment_patterns = {
     javascript = { start = "^(%s*)/%*%s?", finish = "%s?%*/$" },
@@ -343,30 +349,30 @@ local function uncomment_lines()
     xml = { start = "^(%s*)<!%-%-%s?", finish = "%s?%-%->$" },
     markdown = { start = "^(%s*)<!%-%-%s?", finish = "%s?%-%->$" },
   }
-  
+
   -- Get the comment pattern for current filetype
   local pattern = comment_patterns[ft]
   local block_pattern = block_comment_patterns[ft]
-  
+
   if not pattern and not block_pattern then
     vim.notify("No comment pattern defined for filetype: " .. ft, vim.log.levels.WARN)
     return
   end
-  
+
   -- Get the line range from visual selection marks
   local start_line = vim.fn.line("'<")
   local end_line = vim.fn.line("'>")
-  
+
   -- Process each line
   for line_num = start_line, end_line do
     local line = vim.fn.getline(line_num)
     local new_line = line
-    
+
     -- Try single-line comment pattern first
     if pattern then
       new_line = line:gsub(pattern, "%1")
     end
-    
+
     -- If line didn't change and block pattern exists, try block comment
     if new_line == line and block_pattern then
       -- Remove block comment start
@@ -374,7 +380,7 @@ local function uncomment_lines()
       -- Remove block comment end
       new_line = new_line:gsub(block_pattern.finish, "")
     end
-    
+
     -- Update the line if it changed
     if new_line ~= line then
       vim.fn.setline(line_num, new_line)

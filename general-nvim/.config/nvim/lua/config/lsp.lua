@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       opts = vim.tbl_extend("force", { silent = true, buffer = bufnr }, opts or {})
       vim.keymap.set(mode, l, r, opts)
     end
- 
+
 
     -- Custom Go-To-Definition logic
     map("n", "gd", function()
@@ -53,6 +53,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local servers = {
   pyright = { cmd = { "pyright-langserver", "--stdio" } },
   ruff = { cmd = { "ruff", "server" } },
+  marksman = {cmd = { "marksman", "server" } },
 
   -- Lua language server with formatter
   lua_ls = {
@@ -75,11 +76,11 @@ local servers = {
 
 
   -- nixd configuration with formatter
-  nixd = { 
+  nixd = {
     cmd = { "nixd" },
     settings = {
       nixd = {
-        formatting = { command = { "nixpkgs-fmt" } }, 
+        formatting = { command = { "nixpkgs-fmt" } },
       },
     },
   },
