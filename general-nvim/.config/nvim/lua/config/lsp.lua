@@ -4,26 +4,7 @@ local utils = require("utils")
 local status, lspconfig = pcall(require, "lspconfig")
 if not status then return end
 
--- 2. Configure Global Native LSP behavior (Nvim 0.11+)
-lua_ls = {
-    cmd = { "lua-language-server" },
-    settings = {
-      Lua = {
-        format = { enable = true },
-        diagnostics = {
-          disable = { "duplicate-set-field" }, -- Permanent fix for your JDTLS mute logic
-          globals = { "vim" },
-        },
-        workspace = {
-          checkThirdParty = false,
-          -- Tells LSP to look at everything in the current working directory
-          library = { vim.fn.getcwd() },
-        },
-      },
-    },
-  },
-
--- 2. Configure Global Native LSP behavior (Nvim 0.11+)
+-- 2. Configure Global Native LSP behavior
 vim.lsp.config("*", {
   capabilities = require("lsp_utils").get_default_capabilities(),
 })
@@ -40,7 +21,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       opts = vim.tbl_extend("force", { silent = true, buffer = bufnr }, opts or {})
       vim.keymap.set(mode, l, r, opts)
     end
-
 
     -- Custom Go-To-Definition logic
     map("n", "gd", function()
@@ -65,45 +45,56 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "K", function() vim.lsp.buf.hover({ border = "single" }) end)
     map("n", "<space>rn", vim.lsp.buf.rename, { desc = "rename" })
     map("n", "<space>ca", vim.lsp.buf.code_action, { desc = "code action" })
+
+    -- Format on save logic
+    -- FIX: Used colon (:) instead of dot (.)
+    if client:supports_method("textDocument/formatting") then
+      local format_grp = vim.api.nvim_create_augroup("LspFormatting_" .. bufnr, { clear = true })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = format_grp,
+        buffer = bufnr,
+        callback = function()
+          -- FIX: Async must be false to prevent undo history corruption
+          vim.lsp.buf.format({ 
+            bufnr = bufnr, 
+            async = false, 
+            timeout_ms = 2000 
+          })
+        end,
+      })
+    end
   end,
 })
 
 -- 4. Define and Enable Servers
 local servers = {
-
-  pyright = { cmd = { "pyright-langserver", "--stdio" }, settings = { python = { analysis = { diagnosticMode = "workspace", useLibraryCodeForTypes = true, } } } },
+  pyright = { cmd = { "pyright-langserver", "--stdio" } },
   ruff = { cmd = { "ruff", "server" } },
   marksman = { cmd = { "marksman", "server" } },
   bashls = { cmd = { "bash-language-server", "start" } },
 
-  -- Lua language server with formatter
+  -- Lua setup
   lua_ls = {
     cmd = { "lua-language-server" },
     settings = {
       Lua = {
         format = { enable = true },
         diagnostics = {
-          disable = { "duplicate-set-field" }, -- Permanent fix for your JDTLS mute logic
+          disable = { "duplicate-set-field" },
           globals = { "vim" },
         },
         workspace = {
           checkThirdParty = false,
-          -- Tells LSP to look at everything in the current working directory
-          library = { vim.fn.getcwd() },
         },
       },
     },
   },
 
-
-  -- yamlls configuration with formatter
   yamlls = {
     cmd = { "yaml-language-server", "--stdio" },
     settings = { yaml = { format = { enable = true } } }
   },
 
-
-  -- nixd configuration with formatter
   nixd = {
     cmd = { "nixd" },
     settings = {

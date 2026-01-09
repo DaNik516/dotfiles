@@ -4,9 +4,59 @@ local uv = vim.uv
 -- Save key strokes (now we do not need to press shift to enter command mode).
 keymap.set({ "n", "x" }, ";", ":")
 
--- Project-wide diagnostic with lsp server
-keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Project Diagnostics" })
+-- ============================================================================
+-- DIAGNOSTICS & NAV (Leader d...)
+-- ============================================================================
 
+-- 1. Lists (Using Telescope to see 'unused locals')
+-- Buffer: Check current file
+keymap.set("n", "<leader>db", function()
+  require("telescope.builtin").diagnostics({ bufnr = 0 })
+end, { desc = "Buffer Diagnostics" })
+
+-- Workspace: Check WHOLE project
+keymap.set("n", "<leader>dw", function()
+  require("telescope.builtin").diagnostics({ root_dir = true })
+end, { desc = "Workspace Diagnostics" })
+
+-- Workspace Errors: Check ONLY errors (clean up build)
+keymap.set("n", "<leader>dE", function()
+  require("telescope.builtin").diagnostics({
+    root_dir = true,
+    severity = vim.diagnostic.severity.ERROR
+  })
+end, { desc = "Workspace Errors Only" })
+
+-- 2. Navigation
+
+-- Next/Prev ERROR only (Skip warnings/hints)
+-- Jump to next ERROR (Forward)
+vim.keymap.set("n", "<leader>de", function()
+  vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Next Error" })
+
+-- Optional: Jump to previous ERROR (Backward)
+vim.keymap.set("n", "<leader>dE", function()
+  vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Prev Error" })
+-- 3. Inspection & Control
+-- Show the message in a floating window (Detail)
+keymap.set("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Show Diagnostic Detail" })
+
+-- Toggle Diagnostics (Version Safe)
+local diagnostics_active = true
+keymap.set("n", "<leader>dt", function()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    if vim.fn.has("nvim-0.10") == 1 then vim.diagnostic.enable(true) else vim.diagnostic.enable() end
+    vim.notify("Diagnostics Enabled")
+  else
+    if vim.fn.has("nvim-0.10") == 1 then vim.diagnostic.enable(false) else vim.diagnostic.enable(false) end
+    vim.notify("Diagnostics Disabled")
+  end
+end, { desc = "Toggle Diagnostics" })
+
+-- ============================================================================
 -- Turn the word under cursor to upper case
 keymap.set("i", "<c-u>", "<Esc>viwUea")
 
@@ -170,7 +220,8 @@ keymap.set('n', '<leader>jf', '<cmd>JavaProfile<cr>', { desc = 'Java: Profiles U
 
 -- Java Refactor
 keymap.set('n', '<leader>jv', '<cmd>JavaRefactorExtractVariable<cr>', { desc = 'Java: Extract Variable' })
-keymap.set('n', '<leader>jo', '<cmd>JavaRefactorExtractVariableAllOccurrence<cr>', { desc = 'Java: Extract Variable (All Occurrences)' })
+keymap.set('n', '<leader>jo', '<cmd>JavaRefactorExtractVariableAllOccurrence<cr>',
+  { desc = 'Java: Extract Variable (All Occurrences)' })
 keymap.set('n', '<leader>jc', '<cmd>JavaRefactorExtractConstant<cr>', { desc = 'Java: Extract Constant' })
 keymap.set('n', '<leader>jm', '<cmd>JavaRefactorExtractMethod<cr>', { desc = 'Java: Extract Method' })
 keymap.set('n', '<leader>jf', '<cmd>JavaRefactorExtractField<cr>', { desc = 'Java: Extract Field' })
@@ -196,7 +247,7 @@ vim.keymap.set('n', '<leader>rr', function()
   elseif filetype == 'java' then
     -- Use nvim-java command instead of terminal
     vim.cmd('JavaRunnerRunMain')
-    return  -- Exit early since we're not using terminal
+    return -- Exit early since we're not using terminal
   elseif filetype == 'c' then
     cmd = 'gcc -Wall -Wextra -std=c11 ' .. filename .. ' -o ' .. filename_no_ext .. ' && ./' .. filename_no_ext
   elseif filetype == 'cpp' then
@@ -399,11 +450,7 @@ end, { desc = 'Remove comment delimiters from selected lines' })
 -- Keybinding for normal mode (current line)
 keymap.set('n', 'gcr', function()
   -- Set marks to current line for the function to work
-  vim.fn.setpos("'<", {0, vim.fn.line("."), 1, 0})
-  vim.fn.setpos("'>", {0, vim.fn.line("."), vim.fn.col("$"), 0})
+  vim.fn.setpos("'<", { 0, vim.fn.line("."), 1, 0 })
+  vim.fn.setpos("'>", { 0, vim.fn.line("."), vim.fn.col("$"), 0 })
   uncomment_lines()
 end, { desc = 'Remove comment delimiters from current line' })
-
-
-
-

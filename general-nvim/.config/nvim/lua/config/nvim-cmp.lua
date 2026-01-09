@@ -13,6 +13,9 @@ pcall(require, "cmp_omni")
 pcall(require, "cmp_nvim_ultisnips")
 pcall(require, "cmp_cmdline")
 
+-- Copilot suggestion helper (for the Smart Tab logic)
+local has_copilot, copilot_suggestion = pcall(require, "copilot.suggestion")
+
 -- UltiSnips configuration
 vim.g.UltiSnipsExpandTrigger = "<Tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<C-j>"
@@ -25,21 +28,34 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ["<Tab>"] = function(fallback)
+    -- SMART TAB:
+    -- 1. If Menu is open -> Scroll down
+    -- 2. If Ghost Text (Copilot) is visible -> Accept it
+    -- 3. Otherwise -> Regular Tab
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif has_copilot and copilot_suggestion.is_visible() then
+        copilot_suggestion.accept()
       else
         fallback()
       end
-    end,
-    ["<S-Tab>"] = function(fallback)
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       else
         fallback()
       end
-    end,
+    end, { "i", "s" }),
+
+    -- ENTER KEY:
+    -- select = true  -> Enter accepts the selected item (if you scrolled to it)
+    -- select = false -> Enter only accepts if you explicitly selected it.
+    --                   If nothing is selected, it inserts a new line (ignoring ghost text).
     ["<CR>"] = cmp.mapping.confirm { select = true },
+
     ["<C-e>"] = cmp.mapping.abort(),
     ["<Esc>"] = cmp.mapping.close(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -47,7 +63,6 @@ cmp.setup {
   },
   sources = {
     { name = "nvim_lsp" },
-    { name = "copilot"},
     { name = "ultisnips" },
     { name = "path" },
     { name = "buffer", keyword_length = 2 },
@@ -72,8 +87,7 @@ cmp.setup {
   },
 }
 
--- [Keep your existing filetype and cmdline configurations below...]
--- (They use the 'cmp' variable we already protected above)
+-- [Filetype and Cmdline configurations]
 
 cmp.setup.filetype("tex", {
   sources = {
