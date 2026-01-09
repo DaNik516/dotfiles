@@ -5,14 +5,17 @@ local uv = vim.uv
 keymap.set({ "n", "x" }, ";", ":")
 
 -- Project-wide diagnostic with lsp server
-keymap.set("n", "<leader>xd", "<cmd>Telescope diagnostics<cr>", { desc = "Project Diagnostics" })
-
+keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Project Diagnostics" })
 
 -- Turn the word under cursor to upper case
 keymap.set("i", "<c-u>", "<Esc>viwUea")
 
 -- Turn the current word into title case
 keymap.set("i", "<c-t>", "<Esc>b~lea")
+
+keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle Copilot Chat" })
+keymap.set("v", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain Code" })
+keymap.set("v", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "Optimize Code" })
 
 -- Paste non-linewise text above or below current line, see https://stackoverflow.com/a/1346777/6064933
 keymap.set("n", "<leader>p", "m`o<ESC>p``", { desc = "paste below current line" })

@@ -38,7 +38,7 @@ export FZF_DEFAULT_OPTS=" \
 # Aliases
 
 # Built in command improvement
-alias cat="bat"
+alias cat="bat --color=always"
 alias pcat="bat --style=plain"
 alias sudo="sudo "
 alias l="eza -lh --icons=auto"
@@ -66,6 +66,7 @@ alias .3="cd ../../.."
 alias .4="cd ../../../.."
 alias .5="cd ../../../../.."
 alias .6="cd ../../../../../.."
+alias zoxide-add-recursive="zoxide add **/"
 
 # Useful directory navigation
 alias down="cd ~/Downloads"
@@ -126,6 +127,10 @@ cowask() {
 alias borg-status="journalctl -fu borgmatic"
 alias borg-manual="sudo borgmatic --verbosity 1 --stats --progress"
 alias borg-unlock="sudo borgmatic break-lock"
+
+# Virtualization
+alias win-start "docker start WinBoat && echo 'Winboat-windows-vm started'"
+alias win-stop "docker stop WinBoat && echo 'Winboat-windows-vm stopped'"
 
 # ----------------------------------------------
 # --- Git Auto Commit Functions (Current Folder Only) ---

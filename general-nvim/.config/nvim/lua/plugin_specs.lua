@@ -687,6 +687,12 @@ local plugin_specs = {
     end,
   },
   {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    cmd = "Trouble",
+    opts = {use_diagnostics_signs = true},
+  },
+  {
     -- show hint for code actions, the user can also implement code actions themselves,
     -- see discussion here: https://github.com/neovim/neovim/issues/14869
     "kosayoda/nvim-lightbulb",

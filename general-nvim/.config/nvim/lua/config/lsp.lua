@@ -5,6 +5,25 @@ local status, lspconfig = pcall(require, "lspconfig")
 if not status then return end
 
 -- 2. Configure Global Native LSP behavior (Nvim 0.11+)
+lua_ls = {
+    cmd = { "lua-language-server" },
+    settings = {
+      Lua = {
+        format = { enable = true },
+        diagnostics = {
+          disable = { "duplicate-set-field" }, -- Permanent fix for your JDTLS mute logic
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false,
+          -- Tells LSP to look at everything in the current working directory
+          library = { vim.fn.getcwd() }, 
+        },
+      },
+    },
+  },
+
+-- 2. Configure Global Native LSP behavior (Nvim 0.11+)
 vim.lsp.config("*", {
   capabilities = require("lsp_utils").get_default_capabilities(),
 })
@@ -51,22 +70,31 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- 4. Define and Enable Servers
 local servers = {
-  pyright = { cmd = { "pyright-langserver", "--stdio" } },
+
+  pyright = { cmd = { "pyright-langserver", "--stdio" }, settings = { python = { analysis = { diagnosticMode = "workspace", useLibraryCodeForTypes = true, } } } },
   ruff = { cmd = { "ruff", "server" } },
-  marksman = {cmd = { "marksman", "server" } },
+  marksman = { cmd = { "marksman", "server" } },
+  bashls = { cmd = { "bash-language-server", "start" } },
 
   -- Lua language server with formatter
   lua_ls = {
-  cmd = { "lua-language-server" },
-  settings = {
-    Lua = {
-      format = { enable = true }, -- Explicitly enable
+    cmd = { "lua-language-server" },
+    settings = {
+      Lua = {
+        format = { enable = true },
+        diagnostics = {
+          disable = { "duplicate-set-field" }, -- Permanent fix for your JDTLS mute logic
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false,
+          -- Tells LSP to look at everything in the current working directory
+          library = { vim.fn.getcwd() },
+        },
+      },
     },
   },
-},
 
-
-  bashls = { cmd = { "bash-language-server", "start" } },
 
   -- yamlls configuration with formatter
   yamlls = {

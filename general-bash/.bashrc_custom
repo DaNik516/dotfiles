@@ -21,7 +21,7 @@ export FZF_DEFAULT_OPTS=" \
 # ----------------------------------------------
 
 # Replacements
-alias cat="bat"
+alias cat="bat --color=always"
 alias pcat="bat --style=plain"
 alias sudo="sudo "
 alias l="eza -lh --icons=auto"
@@ -44,6 +44,7 @@ alias del="sudo rm -r"
 alias cp="cp -i"
 alias mkdir="mkdir -p"
 alias aliasdelete="find . -type l -print -delete"
+zoxide-add-recursive="zoxide add **/"
 
 # Navigation
 alias .1="cd .."
@@ -106,6 +107,10 @@ alias bonsailive="cbonsai -l"
 alias borg-status="journalctl -fu borgmatic"
 alias borg-manual="sudo borgmatic --verbosity 1 --stats --progress"
 alias borg-unlock="sudo borgmatic break-lock"
+
+# Virtualization
+alias win-start "docker start WinBoat && echo 'Winboat-windows-vm started'"
+alias win-stop "docker stop WinBoat && echo 'Winboat-windows-vm stopped'"
 
 # ----------------------------------------------
 # 📝 FUNCTIONS
