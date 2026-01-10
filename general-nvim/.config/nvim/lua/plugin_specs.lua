@@ -659,7 +659,7 @@ local plugin_specs = {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    event = "InsertEnter",
+    event = "VeryLazy",
     config = function()
       require("copilot").setup({
         suggestion = {
@@ -678,7 +678,7 @@ local plugin_specs = {
   },
   {
     "zbirenbaum/copilot-cmp",
-    event = "InsertEnter",
+    event = "VeryLazy",
     dependencies = { "zbirenbaum/copilot.lua" },
     config = function()
       require("copilot_cmp").setup()

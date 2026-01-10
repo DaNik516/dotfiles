@@ -51,7 +51,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local servers = {
   pyright = { cmd = { "pyright-langserver", "--stdio" } },
   ruff = { cmd = { "ruff", "server" } },
-  marksman = { cmd = { "marksman", "server" } },
   bashls = { cmd = { "bash-language-server", "start" } },
 
   -- Lua setup
@@ -71,11 +70,14 @@ local servers = {
     },
   },
 
+  -- YAML setup
   yamlls = {
     cmd = { "yaml-language-server", "--stdio" },
     settings = { yaml = { format = { enable = true } } }
   },
 
+
+  -- Nix setup
   nixd = {
     cmd = { "nixd" },
     settings = {
