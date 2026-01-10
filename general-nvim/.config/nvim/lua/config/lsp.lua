@@ -4,7 +4,7 @@ local utils = require("utils")
 local status, lspconfig = pcall(require, "lspconfig")
 if not status then return end
 
--- 2. Configure Global Native LSP behavior (Nvim 0.11+)
+-- 2. Configure Global Native LSP behavior
 vim.lsp.config("*", {
   capabilities = require("lsp_utils").get_default_capabilities(),
 })
@@ -21,7 +21,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       opts = vim.tbl_extend("force", { silent = true, buffer = bufnr }, opts or {})
       vim.keymap.set(mode, l, r, opts)
     end
- 
 
     -- Custom Go-To-Definition logic
     map("n", "gd", function()
@@ -46,40 +45,64 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "K", function() vim.lsp.buf.hover({ border = "single" }) end)
     map("n", "<space>rn", vim.lsp.buf.rename, { desc = "rename" })
     map("n", "<space>ca", vim.lsp.buf.code_action, { desc = "code action" })
+
+-- Format on save logic
+    if client:supports_method("textDocument/formatting") then
+      local format_grp = vim.api.nvim_create_augroup("LspFormatting_" .. bufnr, { clear = true })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = format_grp,
+        buffer = bufnr,
+        callback = function()
+          -- START LOCK
+          vim.b.is_formatting = true
+
+          vim.lsp.buf.format({
+            bufnr = bufnr,
+            async = false, -- Synchronous is required for this to work
+            timeout_ms = 2000
+          })
+
+          -- END LOCK
+          vim.b.is_formatting = false
+        end,
+      })
+    end
   end,
 })
-
 -- 4. Define and Enable Servers
 local servers = {
   pyright = { cmd = { "pyright-langserver", "--stdio" } },
   ruff = { cmd = { "ruff", "server" } },
-
-  -- Lua language server with formatter
-  lua_ls = {
-  cmd = { "lua-language-server" },
-  settings = {
-    Lua = {
-      format = { enable = true }, -- Explicitly enable
-    },
-  },
-},
-
-
+  marksman = { cmd = { "marksman", "server" } },
   bashls = { cmd = { "bash-language-server", "start" } },
 
-  -- yamlls configuration with formatter
+  -- Lua setup
+  lua_ls = {
+    cmd = { "lua-language-server" },
+    settings = {
+      Lua = {
+        format = { enable = true },
+        diagnostics = {
+          disable = { "duplicate-set-field" },
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false,
+        },
+      },
+    },
+  },
+
   yamlls = {
     cmd = { "yaml-language-server", "--stdio" },
     settings = { yaml = { format = { enable = true } } }
   },
 
-
-  -- nixd configuration with formatter
-  nixd = { 
+  nixd = {
     cmd = { "nixd" },
     settings = {
       nixd = {
-        formatting = { command = { "nixpkgs-fmt" } }, 
+        formatting = { command = { "nixpkgs-fmt" } },
       },
     },
   },

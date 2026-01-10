@@ -13,6 +13,9 @@ pcall(require, "cmp_omni")
 pcall(require, "cmp_nvim_ultisnips")
 pcall(require, "cmp_cmdline")
 
+-- Copilot suggestion helper (for the Smart Tab logic)
+local has_copilot, copilot_suggestion = pcall(require, "copilot.suggestion")
+
 -- UltiSnips configuration
 vim.g.UltiSnipsExpandTrigger = "<Tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<C-j>"
@@ -25,21 +28,23 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ["<Tab>"] = function(fallback)
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      local copilot_suggestion = require("copilot.suggestion")
+
       if cmp.visible() then
+        -- 1. If the autocomplete menu is open, Tab scrolls the menu
         cmp.select_next_item()
+      elseif copilot_suggestion.is_visible() then
+        -- 2. If the "Grey Thing" (Ghost text) is visible, Tab accepts it
+        copilot_suggestion.accept()
       else
+        -- 3. Otherwise, do a normal Tab (or indent)
         fallback()
       end
-    end,
-    ["<S-Tab>"] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end,
+    end, { "i", "s" }),
+
     ["<CR>"] = cmp.mapping.confirm { select = true },
+
     ["<C-e>"] = cmp.mapping.abort(),
     ["<Esc>"] = cmp.mapping.close(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -49,7 +54,7 @@ cmp.setup {
     { name = "nvim_lsp" },
     { name = "ultisnips" },
     { name = "path" },
-    { name = "buffer", keyword_length = 2 },
+    { name = "buffer",   keyword_length = 2 },
   },
   completion = {
     keyword_length = 1,
@@ -71,14 +76,13 @@ cmp.setup {
   },
 }
 
--- [Keep your existing filetype and cmdline configurations below...]
--- (They use the 'cmp' variable we already protected above)
+-- [Filetype and Cmdline configurations]
 
 cmp.setup.filetype("tex", {
   sources = {
     { name = "omni" },
     { name = "ultisnips" },
-    { name = "buffer", keyword_length = 2 },
+    { name = "buffer",   keyword_length = 2 },
     { name = "path" },
   },
 })

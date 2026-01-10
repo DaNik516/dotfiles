@@ -4,11 +4,68 @@ local uv = vim.uv
 -- Save key strokes (now we do not need to press shift to enter command mode).
 keymap.set({ "n", "x" }, ";", ":")
 
+-- ============================================================================
+-- DIAGNOSTICS & NAV (Leader d...)
+-- ============================================================================
+
+-- 1. Lists (Using Telescope to see 'unused locals')
+-- Buffer: Check current file
+keymap.set("n", "<leader>db", function()
+  require("telescope.builtin").diagnostics({ bufnr = 0 })
+end, { desc = "Buffer Diagnostics" })
+
+-- Workspace: Check WHOLE project
+keymap.set("n", "<leader>dw", function()
+  require("telescope.builtin").diagnostics({ root_dir = true })
+end, { desc = "Workspace Diagnostics" })
+
+-- Workspace Errors: Check ONLY errors (clean up build)
+keymap.set("n", "<leader>dE", function()
+  require("telescope.builtin").diagnostics({
+    root_dir = true,
+    severity = vim.diagnostic.severity.ERROR
+  })
+end, { desc = "Workspace Errors Only" })
+
+-- 2. Navigation
+
+-- Next/Prev ERROR only (Skip warnings/hints)
+-- Jump to next ERROR (Forward)
+vim.keymap.set("n", "<leader>de", function()
+  vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Next Error" })
+
+-- Optional: Jump to previous ERROR (Backward)
+vim.keymap.set("n", "<leader>dE", function()
+  vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Prev Error" })
+-- 3. Inspection & Control
+-- Show the message in a floating window (Detail)
+keymap.set("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Show Diagnostic Detail" })
+
+-- Toggle Diagnostics (Version Safe)
+local diagnostics_active = true
+keymap.set("n", "<leader>dt", function()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    if vim.fn.has("nvim-0.10") == 1 then vim.diagnostic.enable(true) else vim.diagnostic.enable() end
+    vim.notify("Diagnostics Enabled")
+  else
+    if vim.fn.has("nvim-0.10") == 1 then vim.diagnostic.enable(false) else vim.diagnostic.enable(false) end
+    vim.notify("Diagnostics Disabled")
+  end
+end, { desc = "Toggle Diagnostics" })
+
+-- ============================================================================
 -- Turn the word under cursor to upper case
 keymap.set("i", "<c-u>", "<Esc>viwUea")
 
 -- Turn the current word into title case
 keymap.set("i", "<c-t>", "<Esc>b~lea")
+
+keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle Copilot Chat" })
+keymap.set("v", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain Code" })
+keymap.set("v", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "Optimize Code" })
 
 -- Paste non-linewise text above or below current line, see https://stackoverflow.com/a/1346777/6064933
 keymap.set("n", "<leader>p", "m`o<ESC>p``", { desc = "paste below current line" })
@@ -163,7 +220,8 @@ keymap.set('n', '<leader>jf', '<cmd>JavaProfile<cr>', { desc = 'Java: Profiles U
 
 -- Java Refactor
 keymap.set('n', '<leader>jv', '<cmd>JavaRefactorExtractVariable<cr>', { desc = 'Java: Extract Variable' })
-keymap.set('n', '<leader>jo', '<cmd>JavaRefactorExtractVariableAllOccurrence<cr>', { desc = 'Java: Extract Variable (All Occurrences)' })
+keymap.set('n', '<leader>jo', '<cmd>JavaRefactorExtractVariableAllOccurrence<cr>',
+  { desc = 'Java: Extract Variable (All Occurrences)' })
 keymap.set('n', '<leader>jc', '<cmd>JavaRefactorExtractConstant<cr>', { desc = 'Java: Extract Constant' })
 keymap.set('n', '<leader>jm', '<cmd>JavaRefactorExtractMethod<cr>', { desc = 'Java: Extract Method' })
 keymap.set('n', '<leader>jf', '<cmd>JavaRefactorExtractField<cr>', { desc = 'Java: Extract Field' })
@@ -171,7 +229,10 @@ keymap.set('n', '<leader>jf', '<cmd>JavaRefactorExtractField<cr>', { desc = 'Jav
 -- Java Settings
 keymap.set('n', '<leader>jj', '<cmd>JavaSettingsChangeRuntime<cr>', { desc = 'Java: Change Runtime' })
 
-
+-- Previews
+keymap.set("n", "<A-m>", "<cmd>MarkdownPreviewToggle<cr>", { silent = true, desc = "Markdown Preview" })
+keymap.set("n", "]]", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Next Markdown Header" })
+keymap.set("n", "[[", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Previous Markdown Header" })
 
 -- General code runner
 -- Universal run command that detects file type
@@ -186,7 +247,7 @@ vim.keymap.set('n', '<leader>rr', function()
   elseif filetype == 'java' then
     -- Use nvim-java command instead of terminal
     vim.cmd('JavaRunnerRunMain')
-    return  -- Exit early since we're not using terminal
+    return -- Exit early since we're not using terminal
   elseif filetype == 'c' then
     cmd = 'gcc -Wall -Wextra -std=c11 ' .. filename .. ' -o ' .. filename_no_ext .. ' && ./' .. filename_no_ext
   elseif filetype == 'cpp' then
@@ -287,7 +348,7 @@ end, { desc = "close floating win" })
 local function uncomment_lines()
   -- Get the current filetype
   local ft = vim.bo.filetype
-  
+
   -- Define comment patterns for different filetypes
   -- Pattern captures leading whitespace in group 1, then matches comment delimiter + optional space
   local comment_patterns = {
@@ -322,12 +383,11 @@ local function uncomment_lines()
     clojure = "^(%s*);+%s?",
     lisp = "^(%s*);+%s?",
     scheme = "^(%s*);+%s?",
-    r = "^(%s*)#%s?",
     julia = "^(%s*)#%s?",
     dart = "^(%s*)//%s?",
     groovy = "^(%s*)//%s?",
   }
-  
+
   -- Block comment patterns (for /* */ style comments)
   local block_comment_patterns = {
     javascript = { start = "^(%s*)/%*%s?", finish = "%s?%*/$" },
@@ -343,30 +403,30 @@ local function uncomment_lines()
     xml = { start = "^(%s*)<!%-%-%s?", finish = "%s?%-%->$" },
     markdown = { start = "^(%s*)<!%-%-%s?", finish = "%s?%-%->$" },
   }
-  
+
   -- Get the comment pattern for current filetype
   local pattern = comment_patterns[ft]
   local block_pattern = block_comment_patterns[ft]
-  
+
   if not pattern and not block_pattern then
     vim.notify("No comment pattern defined for filetype: " .. ft, vim.log.levels.WARN)
     return
   end
-  
+
   -- Get the line range from visual selection marks
   local start_line = vim.fn.line("'<")
   local end_line = vim.fn.line("'>")
-  
+
   -- Process each line
   for line_num = start_line, end_line do
     local line = vim.fn.getline(line_num)
     local new_line = line
-    
+
     -- Try single-line comment pattern first
     if pattern then
       new_line = line:gsub(pattern, "%1")
     end
-    
+
     -- If line didn't change and block pattern exists, try block comment
     if new_line == line and block_pattern then
       -- Remove block comment start
@@ -374,7 +434,7 @@ local function uncomment_lines()
       -- Remove block comment end
       new_line = new_line:gsub(block_pattern.finish, "")
     end
-    
+
     -- Update the line if it changed
     if new_line ~= line then
       vim.fn.setline(line_num, new_line)
@@ -390,11 +450,7 @@ end, { desc = 'Remove comment delimiters from selected lines' })
 -- Keybinding for normal mode (current line)
 keymap.set('n', 'gcr', function()
   -- Set marks to current line for the function to work
-  vim.fn.setpos("'<", {0, vim.fn.line("."), 1, 0})
-  vim.fn.setpos("'>", {0, vim.fn.line("."), vim.fn.col("$"), 0})
+  vim.fn.setpos("'<", { 0, vim.fn.line("."), 1, 0 })
+  vim.fn.setpos("'>", { 0, vim.fn.line("."), vim.fn.col("$"), 0 })
   uncomment_lines()
 end, { desc = 'Remove comment delimiters from current line' })
-
-
-
-

@@ -18,7 +18,7 @@ set -gx FZF_DEFAULT_OPTS " \
 # ----------------------------------------------
 # 🔗 ALIASES
 # ----------------------------------------------
-alias cat "bat"
+alias cat "bat --color=always"
 alias pcat "bat --style=plain"
 alias sudo "sudo "
 alias l "eza -lh --icons=auto"
@@ -40,6 +40,7 @@ alias cp "cp -i"
 alias mkdir "mkdir -p"
 # Complex aliases with arguments often need quotes in Fish
 alias aliasdelete "find . -type l -print -delete"
+alias zoxide-add-recursive "zoxide add **/"
 
 # Navigation
 alias .1 "cd .."
@@ -85,6 +86,7 @@ alias nas-ssh "cloudflared access ssh --hostname ssh.nicolkrit.ch"
 # Dev
 alias rebuildmvn "cd ~/developing-projects/java-projects && mvn clean install"
 alias dbx "DBX_CONTAINER_MANAGER=podman distrobox"
+
 # Fun
 alias pipes1 "pipes -t 1"
 alias pipes2 "pipes -t 2"
@@ -101,6 +103,10 @@ alias bonsailive "cbonsai -l"
 alias borg-status "journalctl -fu borgmatic"
 alias borg-manual "sudo borgmatic --verbosity 1 --stats --progress"
 alias borg-unlock "sudo borgmatic break-lock"
+
+# Virtualization
+alias win-start "docker start WinBoat && echo 'Winboat-windows-vm started'"
+alias win-stop "docker stop WinBoat && echo 'Winboat-windows-vm stopped'"
 
 # Fish-specific
 alias nd "nextd"
