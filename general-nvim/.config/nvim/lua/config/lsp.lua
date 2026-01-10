@@ -46,26 +46,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<space>rn", vim.lsp.buf.rename, { desc = "rename" })
     map("n", "<space>ca", vim.lsp.buf.code_action, { desc = "code action" })
 
-    -- Format on save logic
-    -- FIX: Used colon (:) instead of dot (.)
+-- Format on save logic
     if client:supports_method("textDocument/formatting") then
       local format_grp = vim.api.nvim_create_augroup("LspFormatting_" .. bufnr, { clear = true })
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = format_grp,
         buffer = bufnr,
         callback = function()
-          -- FIX: Async must be false to prevent undo history corruption
-          vim.lsp.buf.format({ 
-            bufnr = bufnr, 
-            async = false, 
-            timeout_ms = 2000 
+          -- START LOCK
+          vim.b.is_formatting = true
+
+          vim.lsp.buf.format({
+            bufnr = bufnr,
+            async = false, -- Synchronous is required for this to work
+            timeout_ms = 2000
           })
+
+          -- END LOCK
+          vim.b.is_formatting = false
         end,
       })
     end
   end,
 })
-
 -- 4. Define and Enable Servers
 local servers = {
   pyright = { cmd = { "pyright-langserver", "--stdio" } },

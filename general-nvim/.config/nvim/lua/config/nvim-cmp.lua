@@ -28,32 +28,21 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    -- SMART TAB:
-    -- 1. If Menu is open -> Scroll down
-    -- 2. If Ghost Text (Copilot) is visible -> Accept it
-    -- 3. Otherwise -> Regular Tab
     ["<Tab>"] = cmp.mapping(function(fallback)
+      local copilot_suggestion = require("copilot.suggestion")
+
       if cmp.visible() then
+        -- 1. If the autocomplete menu is open, Tab scrolls the menu
         cmp.select_next_item()
-      elseif has_copilot and copilot_suggestion.is_visible() then
+      elseif copilot_suggestion.is_visible() then
+        -- 2. If the "Grey Thing" (Ghost text) is visible, Tab accepts it
         copilot_suggestion.accept()
       else
+        -- 3. Otherwise, do a normal Tab (or indent)
         fallback()
       end
     end, { "i", "s" }),
 
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-
-    -- ENTER KEY:
-    -- select = true  -> Enter accepts the selected item (if you scrolled to it)
-    -- select = false -> Enter only accepts if you explicitly selected it.
-    --                   If nothing is selected, it inserts a new line (ignoring ghost text).
     ["<CR>"] = cmp.mapping.confirm { select = true },
 
     ["<C-e>"] = cmp.mapping.abort(),
@@ -65,7 +54,7 @@ cmp.setup {
     { name = "nvim_lsp" },
     { name = "ultisnips" },
     { name = "path" },
-    { name = "buffer", keyword_length = 2 },
+    { name = "buffer",   keyword_length = 2 },
   },
   completion = {
     keyword_length = 1,
@@ -93,7 +82,7 @@ cmp.setup.filetype("tex", {
   sources = {
     { name = "omni" },
     { name = "ultisnips" },
-    { name = "buffer", keyword_length = 2 },
+    { name = "buffer",   keyword_length = 2 },
     { name = "path" },
   },
 })

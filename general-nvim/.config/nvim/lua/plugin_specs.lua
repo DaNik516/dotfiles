@@ -656,7 +656,7 @@ local plugin_specs = {
       },
     },
   },
-{
+  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
@@ -666,7 +666,7 @@ local plugin_specs = {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = false, 
+            accept = false,
             next = "<M-]>",
             prev = "<M-[>",
             dismiss = "<C-]>",
@@ -751,16 +751,28 @@ local plugin_specs = {
     event = "VeryLazy", -- or choose a loading event you prefer
   },
 
+
   {
     "Pocco81/auto-save.nvim",
     config = function()
       require("auto-save").setup {
         trigger_events = { "FocusLost", "BufLeave" },
+        condition = function(buf)
+          -- If the LSP lock is active, ABORT the auto-save
+          if vim.b[buf].is_formatting then
+            return false
+          end
+
+          -- Standard safety checks
+          local fn = vim.fn
+          if fn.getbufvar(buf, "&buftype") ~= "" then
+            return false
+          end
+          return true
+        end,
       }
     end,
   },
-
-
   {
     "jbyuki/instant.nvim",
     config = function()
