@@ -16,13 +16,19 @@ compinit
 # ----------------------------------------------
 
 # ----------------------------------------------
-# Export current java path to allow to use the current java version
-# Note: On NixOS/Darwin, JAVA_HOME might be set globally, but this ensures dynamic resolution
-export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+# 🔧 ENVIRONMENT VARIABLES
+# ----------------------------------------------
+# Export current java path dynamically
+# (Standard Bash command substitution works here)
+if command -v java >/dev/null 2>&1; then
+    export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+fi
 
-# Export current jdtls path to allow to user the current java version
-# This maps to the symlink created by home.nix
-export JDTLS_BIN=$HOME/tools/jdtls/bin/jdtls
+# Export JDTLS path dynamically if it exists in PATH
+if command -v jdtls >/dev/null 2>&1; then
+    export JDTLS_BIN=$(which jdtls)
+fi
+
 # ----------------------------------------------
 
 # ----------------------------------------------
