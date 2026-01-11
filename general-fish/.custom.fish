@@ -6,7 +6,10 @@ if command -v java >/dev/null 2>&1
     set -gx JAVA_HOME (dirname (dirname (readlink -f (which java))))
 end
 
-set -gx JDTLS_BIN "$HOME/tools/jdtls/bin/jdtls"
+if command -v jdtls >/dev/null 2>&1
+    set -gx JDTLS_BIN (which jdtls)
+end
+
 
 # FZF Styling (No backslashes needed for Fish multiline strings if quoted properly)
 set -gx FZF_DEFAULT_OPTS " \
@@ -83,9 +86,11 @@ alias sshnasip "ssh krit@192.168.1.98"
 alias sshos "ssh -l kritpio.nicol@supsi.ch linux1-didattica.supsi.ch"
 alias nas-ssh "cloudflared access ssh --hostname ssh.nicolkrit.ch"
 
-# Dev
+# Developing
 alias rebuildmvn "cd ~/developing-projects/java-projects && mvn clean install"
 alias dbx "DBX_CONTAINER_MANAGER=podman distrobox"
+alias drva "direnv allow ."
+alias drvr "direnv reload ."
 
 # Fun
 alias pipes1 "pipes -t 1"

@@ -83,12 +83,13 @@ local plugin_specs = {
         java_debug_adapter = { enable = true },
         spring_boot_tools = { enable = true },
         jdtls = {
-          path = vim.env.JDTLS_BIN or vim.fn.expand("~/tools/jdtls/bin/jdtls"),
+          path = vim.env.JDTLS_BIN or vim.fn.exepath('jdtls'),
           settings = {
             java = { home = vim.env.JAVA_HOME }
           },
         },
       })
+
 
       -- 2. Helper to find jars
       local function get_bundles()
@@ -659,7 +660,7 @@ local plugin_specs = {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    event = "InsertEnter",
+    event = "VeryLazy",
     config = function()
       require("copilot").setup({
         suggestion = {
@@ -678,7 +679,7 @@ local plugin_specs = {
   },
   {
     "zbirenbaum/copilot-cmp",
-    event = "InsertEnter",
+    event = "VeryLazy",
     dependencies = { "zbirenbaum/copilot.lua" },
     config = function()
       require("copilot_cmp").setup()
