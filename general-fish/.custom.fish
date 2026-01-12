@@ -91,6 +91,7 @@ alias rebuildmvn "cd ~/developing-projects/java-projects && mvn clean install"
 alias dbx "DBX_CONTAINER_MANAGER=podman distrobox"
 alias drva "direnv allow ."
 alias drvr "direnv reload ."
+alias nixdev "nix develop"
 
 # Fun
 alias pipes1 "pipes -t 1"
@@ -112,6 +113,10 @@ alias borg-unlock "sudo borgmatic break-lock"
 # Virtualization
 alias win-start "docker start WinBoat && echo 'Winboat-windows-vm started'"
 alias win-stop "docker stop WinBoat && echo 'Winboat-windows-vm stopped'"
+
+
+# System maintenance
+alias nvim-recent-files-clean "rm ~/.local/state/nvim/shada/main.shada && echo 'Neovim recent files cleaned'"
 
 # Fish-specific
 alias nd "nextd"
