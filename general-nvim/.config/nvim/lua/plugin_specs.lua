@@ -36,6 +36,13 @@ local plugin_specs = {
       require("config.nvim-cmp")
     end,
   },
+  {
+    "MaximilianLloyd/ascii.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+  },
+
   -- 1. Unified Mason Setup
   {
     "williamboman/mason.nvim",
