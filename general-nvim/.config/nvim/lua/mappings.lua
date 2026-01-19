@@ -15,9 +15,7 @@ keymap.set("n", "<leader>db", function()
 end, { desc = "Buffer Diagnostics" })
 
 -- Workspace: Check WHOLE project
-keymap.set("n", "<leader>dw", function()
-  require("telescope.builtin").diagnostics({ root_dir = true })
-end, { desc = "Workspace Diagnostics" })
+keymap.set("n", "<leader>dw", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Workspace Diagnostics" })
 
 -- Workspace Errors: Check ONLY errors (clean up build)
 keymap.set("n", "<leader>dE", function()
