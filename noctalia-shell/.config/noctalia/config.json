@@ -77,7 +77,7 @@
                     "hideUnoccupied": true,
                     "iconScale": 0.8,
                     "id": "Workspace",
-                    "labelMode": "index+name",
+                    "labelMode": "index",
                     "showApplications": true,
                     "showLabelsOnlyWhenOccupied": true,
                     "unfocusedIconsOpacity": 1
@@ -160,6 +160,7 @@
                     "showUnreadBadge": true
                 },
                 {
+                    "deviceNativePath": "",
                     "displayMode": "alwaysShow",
                     "hideIfIdle": false,
                     "hideIfNotDetected": true,
@@ -212,7 +213,7 @@
     },
     "colorSchemes": {
         "darkMode": true,
-        "extractionMethod": "default",
+        "generationMethod": "material",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "predefinedScheme": "Nord",
