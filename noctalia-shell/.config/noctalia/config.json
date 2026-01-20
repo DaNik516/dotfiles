@@ -213,7 +213,7 @@
     },
     "colorSchemes": {
         "darkMode": true,
-        "generationMethod": "material",
+        "generationMethod": "vibrant",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "predefinedScheme": "Nord",
@@ -394,7 +394,7 @@
         "lowUrgencyDuration": 3,
         "monitors": [
         ],
-        "normalUrgencyDuration": 8,
+        "normalUrgencyDuration": 10,
         "overlayLayer": true,
         "respectExpireTimeout": true,
         "saveToHistory": {
