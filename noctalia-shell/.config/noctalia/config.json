@@ -24,7 +24,7 @@
         "mprisBlacklist": [
         ],
         "preferredPlayer": "",
-        "visualizerType": "linear",
+        "visualizerType": "wave",
         "volumeFeedback": false,
         "volumeOverdrive": false,
         "volumeStep": 5
@@ -89,13 +89,13 @@
                     "id": "SystemMonitor",
                     "showCpuTemp": true,
                     "showCpuUsage": true,
-                    "showDiskUsage": true,
+                    "showDiskUsage": false,
                     "showGpuTemp": false,
                     "showLoadAverage": true,
                     "showMemoryAsPercent": false,
                     "showMemoryUsage": true,
-                    "showNetworkStats": true,
-                    "showSwapUsage": true,
+                    "showNetworkStats": false,
+                    "showSwapUsage": false,
                     "useMonospaceFont": true,
                     "usePrimaryColor": false
                 },
@@ -161,7 +161,7 @@
                 },
                 {
                     "displayMode": "alwaysShow",
-                    "id": "Brightness"
+                    "id": "VPN"
                 },
                 {
                     "colorizeDistroLogo": false,
