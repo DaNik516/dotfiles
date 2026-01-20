@@ -55,7 +55,7 @@
             "center": [
                 {
                     "characterCount": 2,
-                    "colorizeIcons": false,
+                    "colorizeIcons": true,
                     "enableScrollWheel": true,
                     "followFocusedScreen": false,
                     "groupedBorderOpacity": 1,
@@ -65,7 +65,7 @@
                     "labelMode": "index",
                     "showApplications": true,
                     "showLabelsOnlyWhenOccupied": true,
-                    "unfocusedIconsOpacity": 1
+                    "unfocusedIconsOpacity": 0.5700000000000001
                 }
             ],
             "left": [
@@ -82,21 +82,6 @@
                     "tooltipFormat": "h:mm AP - ddd, MMM dd",
                     "useCustomFont": false,
                     "usePrimaryColor": true
-                },
-                {
-                    "defaultSettings": {
-                        "autoHeight": true,
-                        "cheatsheetData": [
-                        ],
-                        "columnCount": 3,
-                        "detectedCompositor": "",
-                        "hyprlandConfigPath": "~/.config/hypr/hyprland.conf",
-                        "modKeyVariable": "$mod",
-                        "niriConfigPath": "~/.config/niri/config.kdl",
-                        "windowHeight": 0,
-                        "windowWidth": 1400
-                    },
-                    "id": "plugin:keybind-cheatsheet"
                 },
                 {
                     "compactMode": true,
@@ -266,13 +251,13 @@
             ],
             "right": [
                 {
-                    "id": "Notifications"
-                },
-                {
                     "id": "KeepAwake"
                 },
                 {
                     "id": "NightLight"
+                },
+                {
+                    "id": "WallpaperSelector"
                 },
                 {
                     "enableOnStateLogic": false,
@@ -388,7 +373,7 @@
         "backgroundOpacity": 1,
         "criticalUrgencyDuration": 15,
         "enableKeyboardLayoutToast": true,
-        "enableMediaToast": true,
+        "enableMediaToast": false,
         "enabled": true,
         "location": "top_right",
         "lowUrgencyDuration": 3,
