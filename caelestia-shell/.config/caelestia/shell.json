@@ -369,9 +369,8 @@
       },
       {
         "command": [
-          "loginctl",
-          "terminate-user",
-          ""
+        "/run/current-system/sw/bin/uwsm",
+        "stop"
         ],
         "dangerous": true,
         "description": "Log out of the current session",
@@ -445,9 +444,8 @@
     "vimKeybinds": false,
     "commands": {
       "logout": [
-        "loginctl",
-        "terminate-user",
-        ""
+        "/run/current-system/sw/bin/uwsm",
+        "stop"
       ],
       "shutdown": [
         "systemctl",
