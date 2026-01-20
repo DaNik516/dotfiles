@@ -369,8 +369,7 @@
       },
       {
         "command": [
-        "/run/current-system/sw/bin/uwsm",
-        "stop"
+        "caelestia-logout"
         ],
         "dangerous": true,
         "description": "Log out of the current session",
@@ -444,8 +443,7 @@
     "vimKeybinds": false,
     "commands": {
       "logout": [
-        "/run/current-system/sw/bin/uwsm",
-        "stop"
+        "caelestia-logout"
       ],
       "shutdown": [
         "systemctl",
