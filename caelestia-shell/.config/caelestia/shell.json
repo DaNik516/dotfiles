@@ -100,7 +100,7 @@
       "enabled": true
     },
     "visualiser": {
-      "enabled": false,
+      "enabled": true,
       "autoHide": true,
       "blur": false,
       "rounding": 1,
@@ -124,7 +124,7 @@
     "workspaces": {
       "shown": 5,
       "activeIndicator": true,
-      "occupiedBg": false,
+      "occupiedBg": true,
       "showWindows": true,
       "showWindowsOnSpecialWorkspaces": true,
       "activeTrail": false,
@@ -136,15 +136,15 @@
       "specialWorkspaceIcons": []
     },
     "tray": {
-      "background": false,
-      "recolour": false,
-      "compact": false,
+      "background": true,
+      "recolour": true,
+      "compact": true,
       "iconSubs": []
     },
     "status": {
-      "showAudio": false,
-      "showMicrophone": false,
-      "showKbLayout": false,
+      "showAudio": true,
+      "showMicrophone": true,
+      "showKbLayout": true,
       "showNetwork": true,
       "showWifi": true,
       "showBluetooth": true,
@@ -233,21 +233,21 @@
   },
   "launcher": {
     "enabled": true,
-    "showOnHover": false,
+    "showOnHover": true,
     "maxShown": 7,
     "maxWallpapers": 9,
     "specialPrefix": "@",
     "actionPrefix": ">",
-    "enableDangerousActions": false,
+    "enableDangerousActions": true,
     "dragThreshold": 50,
-    "vimKeybinds": false,
+    "vimKeybinds": true,
     "hiddenApps": [],
     "useFuzzy": {
-      "apps": false,
-      "actions": false,
-      "schemes": false,
-      "variants": false,
-      "wallpapers": false
+      "apps": true,
+      "actions": true,
+      "schemes": true,
+      "variants": true,
+      "wallpapers": true
     },
     "sizes": {
       "itemWidth": 600,
