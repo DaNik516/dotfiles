@@ -9,6 +9,22 @@
         "iconMode": "native",
         "ignoreMouseInput": false,
         "pinnedApps": [
+            "librewolf",
+            "librewolf-privacy",
+            "apple-music",
+            "kitty",
+            "custom-nvim",
+            "yazi",
+            "com.actualbudget.actual",
+            "org.kde.dolphin",
+            "proton-pass",
+            "code",
+            "torbrowser",
+            "vesktop",
+            "signal",
+            "notion",
+            "winboat",
+            "nas"
         ],
         "position": "center",
         "screenshotAnnotationTool": "",
@@ -201,6 +217,7 @@
         "generationMethod": "vibrant",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
+        "monitorForColors": "",
         "predefinedScheme": "Nord",
         "schedulingMode": "off",
         "useWallpaperColors": false
@@ -459,7 +476,7 @@
         "showHeader": true,
         "showNumberLabels": true
     },
-    "settingsVersion": 41,
+    "settingsVersion": 42,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
         "cpuPollingInterval": 3000,
@@ -507,17 +524,17 @@
         "wifiDetailsViewMode": "grid"
     },
     "wallpaper": {
-        "directory": "/home/krit/wallpaper-repo",
-        "enableMultiMonitorDirectories": false,
+        "automationEnabled": false,
+        "directory": "/home/krit/Pictures/wallpapers",
+        "enableMultiMonitorDirectories": true,
         "enabled": true,
-        "fillColor": "#000000",
+        "fillColor": "#3b4252",
         "fillMode": "crop",
         "hideWallpaperFilenames": false,
         "monitorDirectories": [
         ],
         "overviewEnabled": false,
         "panelPosition": "follow_bar",
-        "randomEnabled": false,
         "randomIntervalSec": 300,
         "recursiveSearch": true,
         "setWallpaperOnAllMonitors": false,
