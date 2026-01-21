@@ -217,6 +217,7 @@
         "generationMethod": "vibrant",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
+        "monitorForColors": "",
         "predefinedScheme": "Nord",
         "schedulingMode": "off",
         "useWallpaperColors": false
@@ -524,10 +525,10 @@
     },
     "wallpaper": {
         "automationEnabled": false,
-        "directory": "/home/krit/wallpaper-repo",
-        "enableMultiMonitorDirectories": false,
+        "directory": "/home/krit/Pictures/wallpapers",
+        "enableMultiMonitorDirectories": true,
         "enabled": true,
-        "fillColor": "#000000",
+        "fillColor": "#3b4252",
         "fillMode": "crop",
         "hideWallpaperFilenames": false,
         "monitorDirectories": [
