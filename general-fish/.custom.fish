@@ -117,6 +117,7 @@ alias win-stop "docker stop WinBoat && echo 'Winboat-windows-vm stopped'"
 
 # System maintenance
 alias nvim-recent-files-clean "rm ~/.local/state/nvim/shada/main.shada && echo 'Neovim recent files cleaned'"
+alias boot-windows "sudo efibootmgr --bootnext 0000 && echo 'Next boot set to Windows'"
 
 # Fish-specific
 alias nd "nextd"
