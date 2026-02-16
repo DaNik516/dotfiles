@@ -1,6 +1,9 @@
 # ----------------------------------------------
 # 🔧 ENVIRONMENT VARIABLES
 # ----------------------------------------------
+# Enable vim-keybinds
+#fish_vi_key_bindings
+
 # Fish uses parens () for command substitution, not $()
 if command -v java >/dev/null 2>&1
     set -gx JAVA_HOME (dirname (dirname (readlink -f (which java))))
