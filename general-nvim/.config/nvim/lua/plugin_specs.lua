@@ -56,20 +56,25 @@ local plugin_specs = {
     end,
   },
 
-  -- 2. Unified Mason-LSPConfig
+-- 2. Unified Mason-LSPConfig
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
+      local is_nix_managed = vim.uv.fs_stat("/etc/nixos") or vim.uv.fs_stat("/etc/nix")
+
       require("mason-lspconfig").setup({
-        -- Only auto-install on non-Nix systems to prevent read-only errors
-        ensure_installed = not vim.uv.fs_stat("/etc/nixos") or vim.vut.fs_stat("/etc/nix") and {
-          "lua_ls", "pyright", "ruff", "bashls", "spring-boot-tools"
-        } or {},
+        ensure_installed = is_nix_managed and {} or {
+          "lua_ls",
+          "pyright",
+          "ruff",
+          "bashls",
+          "spring_boot",
+        },
       })
     end,
   },
-  {
+{
     "nvim-java/nvim-java",
     dependencies = {
       "nvim-java/lua-async-await",
@@ -81,11 +86,13 @@ local plugin_specs = {
       "mfussenegger/nvim-dap",
     },
     config = function()
-      local is_nixos = vim.uv.fs_stat("/etc/nixos") ~= nil or vim.uv.fs_stat("/etc/nix") ~= nil
+      -- 1. Consistent Nix Check (Same as mason-lspconfig)
+      local is_nix_managed = vim.uv.fs_stat("/etc/nixos") or vim.uv.fs_stat("/etc/nix")
 
-      -- 1. Setup nvim-java
+      -- 2. Setup nvim-java
       require('java').setup({
-        jdk = { auto_install = not is_nixos },
+        jdk = { auto_install = not is_nix_managed },
+
         java_test = { enable = true },
         java_debug_adapter = { enable = true },
         spring_boot_tools = { enable = true },
@@ -97,10 +104,13 @@ local plugin_specs = {
         },
       })
 
-
-      -- 2. Helper to find jars
+      -- 3. Helper to find jars (Updated to use is_nix_managed)
       local function get_bundles()
-        if not is_nixos then return {} end
+        -- On Mac (not managed), we usually let nvim-java handle bundles automatically,
+        -- so we return empty table here.
+        if not is_nix_managed then return {} end
+
+        -- On NixOS, if we have manually installed jars, we try to find them:
         local bundles = {}
         local debug_path = vim.fn.expand("~/.local/share/nvim/nvim-java/packages/java-debug-adapter/extension/server")
         local test_path = vim.fn.expand("~/.local/share/nvim/nvim-java/packages/java-test/extension/server")
@@ -163,10 +173,10 @@ local plugin_specs = {
     event = "VeryLazy",
   },
   { "machakann/vim-swap",          event = "VeryLazy" },
-  {
-    "nvim-treesitter/nvim-treesitter", -- Wrapped in a check because it is installed in neovim.nix --
+{
+    "nvim-treesitter/nvim-treesitter",
     build = function()
-      if not vim.uv.fs_stat("/etc/nixos") or vim.uv.fst_stat("/etc/nix") then
+      if not (vim.uv.fs_stat("/etc/nixos") or vim.uv.fs_stat("/etc/nix")) then
         vim.cmd(":TSUpdate")
       end
     end,
