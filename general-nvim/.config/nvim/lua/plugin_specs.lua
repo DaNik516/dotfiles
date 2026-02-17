@@ -63,7 +63,7 @@ local plugin_specs = {
     config = function()
       require("mason-lspconfig").setup({
         -- Only auto-install on non-Nix systems to prevent read-only errors
-        ensure_installed = not vim.uv.fs_stat("/etc/nixos") and {
+        ensure_installed = not vim.uv.fs_stat("/etc/nixos") or vim.vut.fs_stat("/etc/nix") and {
           "lua_ls", "pyright", "ruff", "bashls", "spring-boot-tools"
         } or {},
       })
@@ -166,7 +166,7 @@ local plugin_specs = {
   {
     "nvim-treesitter/nvim-treesitter", -- Wrapped in a check because it is installed in neovim.nix --
     build = function()
-      if not vim.uv.fs_stat("/etc/nixos") then
+      if not vim.uv.fs_stat("/etc/nixos") or vim.uv.fst_stat("/etc/nix") then
         vim.cmd(":TSUpdate")
       end
     end,
