@@ -1,1 +1,0 @@
-/nix/store/il8xx6gxdpn6y5djghx5fgcrn161cnz4-home-manager-files/.local/bin/init-gnome-keyring.sh
