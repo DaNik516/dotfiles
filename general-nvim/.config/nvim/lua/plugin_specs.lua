@@ -81,7 +81,7 @@ local plugin_specs = {
       "mfussenegger/nvim-dap",
     },
     config = function()
-      local is_nixos = vim.uv.fs_stat("/etc/nixos") ~= nil
+      local is_nixos = vim.uv.fs_stat("/etc/nixos") ~= nil or vim.uv.fs_stat("/etc/nix") ~= nil
 
       -- 1. Setup nvim-java
       require('java').setup({
