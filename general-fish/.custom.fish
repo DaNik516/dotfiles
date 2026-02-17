@@ -80,6 +80,7 @@ alias dev-html "cd ~/developing-projects/html-projects/"
 # Git
 alias clone "git clone "
 alias gc "git checkout "
+alias gpul "git pull "
 alias gm "git commit -m"
 alias gmer "git merge "
 alias gs "git status"
