@@ -102,6 +102,7 @@ alias dev-html="cd ~/developing-projects/html-projects/"
 # Useful git aliases
 alias clone="git clone "
 alias gc="git checkout "
+alias gpul="git pull "
 alias gs="git status"
 alias gm="git commit -m"
 alias gmer="git merge "
