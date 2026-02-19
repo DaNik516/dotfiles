@@ -232,6 +232,15 @@ keymap.set("n", "<A-m>", "<cmd>MarkdownPreviewToggle<cr>", { silent = true, desc
 keymap.set("n", "]]", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Next Markdown Header" })
 keymap.set("n", "[[", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Previous Markdown Header" })
 
+-- ============================================================================
+-- MARKDOWN FOOTNOTES (Prevents plugin from hijacking <space>r)
+-- ============================================================================
+-- By defining these globally, the vim-markdownfootnotes plugin will
+-- see them and NOT create its default conflicting <leader>r mapping.
+keymap.set({"n", "i"}, "<leader>mr", "<Plug>ReturnFromFootnote", { desc = "Return from Footnote" })
+keymap.set({"n", "i"}, "<leader>mf", "<Plug>AddVimMarkdownFootnote", { desc = "Add Footnote" })
+keymap.set({"n", "i"}, "<leader>mi", "<Plug>VimMarkdownFootnoteShortcut", { desc = "Footnote Shortcut" })
+
 -- General code runner
 -- Universal run command that detects file type
 vim.keymap.set('n', '<leader>rr', function()

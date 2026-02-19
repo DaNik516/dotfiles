@@ -226,11 +226,31 @@ local plugin_specs = {
     end,
     event = "VeryLazy",
   },
-  {
+{
     "MeanderingProgrammer/render-markdown.nvim",
     main = "render-markdown",
-    opts = {},
     ft = { "markdown" },
+    opts = {
+      -- 1. Increase update delay (Default is 100ms).
+      -- Waits half a second after you stop typing before recalculating graphics.
+      debounce = 500,
+
+      -- 2. Strict Mode Limits.
+      -- Ensures it ONLY renders in Normal ('n') and Command ('c') mode.
+      -- When you enter Insert ('i') mode to type, rendering pauses completely.
+      render_modes = { 'n', 'c' },
+
+      -- 3. Limit processing on huge files.
+      -- Stops trying to render if a markdown file is over 1.5MB.
+      max_file_size = 1.5,
+
+      -- 4. Anti-conceal tuning.
+      -- Anti-conceal hides graphical elements on the exact line your cursor is on.
+      -- If the UI still feels slow when moving the cursor up/down, change enabled to `false`.
+      anti_conceal = {
+        enabled = true,
+      },
+    },
   },
   -- A list of colorscheme plugin you may want to try. Find what suits you.
   { "navarasu/onedark.nvim",       lazy = true },
