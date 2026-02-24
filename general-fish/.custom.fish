@@ -99,7 +99,6 @@ alias nas-ssh "cloudflared access ssh --hostname ssh.nicolkrit.ch"
 alias rebuildmvn "cd ~/developing-projects/java-projects && mvn clean install"
 alias dbx "DBX_CONTAINER_MANAGER=podman distrobox"
 alias drva "direnv allow ."
-alias drvr "direnv reload ."
 alias nixdev "nix develop"
 
 # Fun

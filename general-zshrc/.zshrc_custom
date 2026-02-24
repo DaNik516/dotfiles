@@ -93,11 +93,6 @@ alias videos="cd ~/Videos/"
 alias doc="cd ~/Documents/"
 alias temp="cd ~/Templates/"
 alias dot="cd ~/dotfiles"
-alias dev-projects="cd ~/developing-projects/"
-alias dev-java="cd ~/developing-projects/java-projects/"
-alias dev-python="cd ~/developing-projects/python-projects/"
-alias dev-latex="cd ~/developing-projects/latex-projects/"
-alias dev-html="cd ~/developing-projects/html-projects/"
 
 # Useful git aliases
 alias clone="git clone "
@@ -112,17 +107,10 @@ alias gitkeep="find . -type d -empty -not -path './.git/*' -exec touch {}/.gitke
 alias gaall="git add -A"
 
 # Various ssh access
-alias sshtailscale="ssh krit@nicol-nas"
-alias sshnasip="ssh krit@192.168.1.98"
-alias sshos="ssh -l kritpio.nicol@supsi.ch linux1-didattica.supsi.ch"
-alias nas-ssh="cloudflared access ssh --hostname ssh.nicolkrit.ch"
 
 # Developing
 alias rebuildmvn="cd ~/developing-projects/java-projects && mvn clean install"
 alias dbx="DBX_CONTAINER_MANAGER=podman distrobox"
-alias drva="direnv allow ."
-alias drvr ="direnv reload ."
-alias nixdev ="nix develop"
 
 # Fun commands
 alias pipes1="pipes -t 1"
@@ -135,20 +123,6 @@ alias pipes7="pipes -t 7"
 alias pipes8="pipes -t 8"
 alias pipes9="pipes -t 9"
 alias bonsailive="cbonsai -l"
-cowask() {
-    echo -n "What should the cow say? "
-    read input
-    cowsay "$input"
-}
-
-# Borgmatic nas backup
-alias borg-status="journalctl -fu borgmatic"
-alias borg-manual="sudo borgmatic --verbosity 1 --stats --progress"
-alias borg-unlock="sudo borgmatic break-lock"
-
-# Virtualization
-alias win-start="docker start WinBoat && echo 'Winboat-windows-vm started'"
-alias win-stop="docker stop WinBoat && echo 'Winboat-windows-vm stopped'"
 
 
 # System maintenance
@@ -202,7 +176,6 @@ gacm() {
 
 # various eval
 eval "$(starship init zsh)"
-eval "$(pay-respects zsh)"
 
 # ----------------------------------------------
 # Startup Splash (Fastfetch + Pokemon)
