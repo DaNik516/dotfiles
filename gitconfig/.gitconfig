@@ -1,0 +1,13 @@
+[include]
+    path = ~/.gitconfig-personal
+
+[includeIf "gitdir:~/progetti/personale/"]
+    path = ~/.gitconfig-personal
+
+[includeIf "gitdir:~/progetti/supsi/"]
+    path = ~/.gitconfig-uni
+
+[core]
+    editor = nano
+[init]
+    defaultBranch = main
